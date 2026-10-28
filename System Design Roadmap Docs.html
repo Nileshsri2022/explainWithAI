@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>System Design Roadmap Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#FAF9F5; --surface:#FFFFFF; --surface2:#F3F0E9; --ink:#1F1E1B; --ink2:#57534A; --ink3:#8A8578;
+  --line:#E5E0D3; --accent:#C15F3C; --accent-ink:#A34E30; --accent-soft:#F7E8E1;
+  --green:#3E7C4F; --green-soft:#E7F0E9; --amber:#9A6B14; --amber-soft:#F7EEDD;
+  --red:#A63D2F; --red-soft:#F9E9E5; --blue:#3D5A80; --blue-soft:#E8EDF4;
+  --code-bg:#F3F0E9; --shadow:0 1px 2px rgba(31,30,27,.05),0 4px 16px rgba(31,30,27,.05);
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1C1B18; --surface:#26241F; --surface2:#2E2B25; --ink:#EDE9DF; --ink2:#B9B2A2; --ink3:#8A8578;
+    --line:#3A372F; --accent:#D97757; --accent-ink:#E08B6D; --accent-soft:#3A2A22;
+    --green:#7FB98E; --green-soft:#26332A; --amber:#D9A94A; --amber-soft:#38311E;
+    --red:#E08A7B; --red-soft:#3A2622; --blue:#93AED6; --blue-soft:#26303F;
+    --code-bg:#2E2B25; --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Source Serif 4",Georgia,"Times New Roman",serif;line-height:1.22;margin:0;font-weight:600}
+a{color:var(--accent-ink);text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:2px}
+a:hover{text-decoration-color:var(--accent)}
+code{font-family:"Source Code Pro",ui-monospace,monospace;font-size:.88em;background:var(--code-bg);padding:.08em .35em;border-radius:5px}
+::selection{background:var(--accent-soft)}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:264px minmax(0,1fr);max-width:1240px;margin:0 auto;align-items:start}
+main{min-width:0;padding:36px 40px 80px}
+.wrap{max-width:840px}
+
+/* ---------- sidebar ---------- */
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:26px 18px 40px 26px;border-right:1px solid var(--line);scrollbar-width:thin}
+aside .brand{font-family:"Source Serif 4",Georgia,serif;font-weight:700;font-size:1.05rem;margin-bottom:2px}
+aside .brandsub{font-size:.8rem;color:var(--ink3);margin-bottom:18px}
+.progressbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:18px}
+.progressbox .plabel{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;color:var(--ink2);margin-bottom:7px}
+.progressbox .plabel b{color:var(--accent-ink)}
+.track{height:7px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.progressbox .pnote{font-size:.74rem;color:var(--ink3);margin-top:7px}
+nav .navgroup{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);margin:18px 0 6px}
+nav a{display:flex;gap:8px;align-items:baseline;padding:4.5px 9px;border-radius:7px;color:var(--ink2);text-decoration:none;font-size:.9rem;line-height:1.35}
+nav a .n{font-size:.74rem;color:var(--ink3);font-variant-numeric:tabular-nums;min-width:20px}
+nav a:hover{background:var(--surface2);color:var(--ink)}
+nav a.active{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+nav a.active .n{color:var(--accent-ink)}
+nav a .done{margin-left:auto;color:var(--green);font-size:.8rem;visibility:hidden}
+nav a.is-done .done{visibility:visible}
+
+/* ---------- hero ---------- */
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+h1{font-size:2.35rem;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.lede{font-size:1.13rem;color:var(--ink2);max-width:46em;margin:0 0 20px}
+.lede strong{color:var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.meta span{font-size:.82rem;font-weight:600;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:4px 12px;color:var(--ink2)}
+.meta span b{color:var(--ink)}
+.searchbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.searchbar input{flex:1;min-width:220px;font:inherit;font-size:.98rem;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink)}
+.searchbar input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.searchbar select{font:inherit;font-size:.95rem;padding:11px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink);max-width:100%}
+.searchnote{font-size:.85rem;color:var(--ink3);min-height:1.3em;margin-bottom:6px}
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin:20px 0;font-size:.97rem}
+.callout p{margin:0 0 8px}.callout p:last-child{margin:0}
+.callout .ct{font-weight:700;font-family:"Source Serif 4",Georgia,serif}
+
+/* ---------- generic blocks ---------- */
+section.doc{margin-top:54px;scroll-margin-top:18px}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px}
+.sec-num{flex:none;width:38px;height:38px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink);font-family:"Source Serif 4",Georgia,serif;font-weight:700;font-size:1.05rem;display:flex;align-items:center;justify-content:center;margin-top:3px}
+h2{font-size:1.62rem;letter-spacing:-.005em}
+.sec-head .sub{color:var(--ink2);font-size:.98rem;margin-top:3px}
+.studied-btn{margin-left:auto;flex:none;font:inherit;font-size:.82rem;font-weight:600;padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer}
+.studied-btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+.studied-btn.on{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 18px}
+.chips span{font-size:.8rem;font-weight:600;background:var(--surface2);border:1px solid var(--line);color:var(--ink2);border-radius:6px;padding:2.5px 9px}
+.chips span.hot{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.card h3,.card h4{font-size:1rem;margin-bottom:6px}
+.card p{margin:0 0 8px;font-size:.95rem;color:var(--ink2)}
+.card p:last-child{margin:0}
+.card ul{margin:4px 0 0;padding-left:18px;font-size:.95rem;color:var(--ink2)}
+.card li{margin:3px 0}
+.card li b,.card p b{color:var(--ink)}
+.card.what{border-top:3px solid var(--accent)}
+.card.why{border-top:3px solid var(--blue)}
+.card.traps{border-top:3px solid var(--red);background:var(--surface)}
+.card.practice{border-top:3px solid var(--green)}
+.card.traps li::marker{color:var(--red)}
+.card.practice li::marker{color:var(--green)}
+.res{margin:14px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px}
+.res h4{font-size:.95rem;margin-bottom:8px}
+.res h4 .free{font-family:"Source Sans 3",sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--green-soft);color:var(--green);border-radius:99px;padding:2px 9px;margin-left:8px;vertical-align:2px}
+.res ul{margin:0;padding-left:18px;font-size:.95rem}
+.res li{margin:5px 0;color:var(--ink2)}
+.res li b{color:var(--ink)}
+.note{font-size:.88rem;color:var(--ink3);margin-top:10px}
+.divider{border:none;border-top:1px solid var(--line);margin:0}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:560px}
+th{ text-align:left;font-family:"Source Sans 3",sans-serif;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface2)}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+td b,td strong{color:var(--ink)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+
+/* pattern groups */
+.pgroup{margin:18px 0}
+.pgroup h3{font-size:1.13rem;margin-bottom:4px}
+.pgroup .pg-sub{font-size:.9rem;color:var(--ink3);margin-bottom:10px}
+dl.patterns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+dl.patterns>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px}
+dl.patterns dt{font-weight:700;font-size:.93rem;margin-bottom:2px}
+dl.patterns dt .x{font-weight:600;font-size:.72rem;color:var(--amber);background:var(--amber-soft);border-radius:99px;padding:1px 8px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+dl.patterns dd{margin:0;font-size:.88rem;color:var(--ink2);line-height:1.5}
+
+/* antipattern grid */
+.anti{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.anti>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px}
+.anti b{font-size:.93rem}
+.anti p{margin:2px 0 0;font-size:.88rem;color:var(--ink2)}
+
+/* checklist */
+.check-group{margin:20px 0}
+.check-group h3{font-size:1.1rem;margin-bottom:8px}
+ul.checklist{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+ul.checklist li{padding:10px 16px 10px 44px;position:relative;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--ink2)}
+ul.checklist li:last-child{border-bottom:none}
+ul.checklist li::before{content:"";position:absolute;left:16px;top:14px;width:13px;height:13px;border:1.6px solid var(--ink3);border-radius:4px}
+ul.checklist li b{color:var(--ink)}
+
+/* study order */
+ol.steps{counter-reset:st;list-style:none;margin:14px 0;padding:0}
+ol.steps li{counter-increment:st;position:relative;padding:12px 16px 12px 58px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:9px;font-size:.96rem;color:var(--ink2)}
+ol.steps li::before{content:counter(st);position:absolute;left:15px;top:11px;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);font-family:"Source Serif 4",Georgia,serif;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+ol.steps li b{color:var(--ink)}
+
+footer{margin-top:64px;border-top:1px solid var(--line);padding-top:22px;font-size:.88rem;color:var(--ink3)}
+footer h3{font-size:1rem;color:var(--ink);margin-bottom:8px}
+footer ul{margin:0;padding-left:18px}
+footer li{margin:4px 0}
+.hidden{display:none!important}
+mark{background:var(--amber-soft);color:inherit;border-radius:2px;padding:0 1px}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px 20px 8px}
+  aside nav{display:none}
+  aside nav.open{display:block}
+  .navtoggle{display:inline-block!important}
+  main{padding:26px 20px 60px}
+  h1{font-size:1.9rem}
+  .grid2,dl.patterns,.anti{grid-template-columns:1fr}
+  table{min-width:0}
+  td:first-child{white-space:normal}
+  .tablewrap{overflow-x:visible}
+  thead{display:none}
+  table, tbody, tr, td{display:block;width:100%}
+  tr{padding:8px 0;border-bottom:1px solid var(--line)}
+  tr:last-child{border-bottom:none}
+  td{border-bottom:none;padding:4px 14px}
+}
+.navtoggle{display:none;font:inherit;font-size:.85rem;font-weight:600;padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside>
+  <div class="brand">System Design Roadmap</div>
+  <div class="brandsub">Complete docs · every topic on roadmap.sh, free resources only</div>
+  <button class="navtoggle" id="navToggle" aria-expanded="false">☰ Contents</button>
+  <div class="progressbox">
+    <div class="plabel"><span>Sections studied</span><b id="progLabel">0 / 20</b></div>
+    <div class="track"><i id="progBar"></i></div>
+    <div class="pnote">Tap “Mark studied” on a section as you finish it. Counts for this visit only.</div>
+  </div>
+  <nav id="sidenav" aria-label="Contents">
+    <div class="navgroup">Start here</div>
+    <a href="#overview"><span class="n">·</span>Overview &amp; how to use</a>
+    <a href="#backbone"><span class="n">·</span>Backbone free resources</a>
+    <div class="navgroup">The roadmap — all 20 sections</div>
+    <a href="#s1" data-sec="s1"><span class="n">1</span>Introduction<span class="done">✓</span></a>
+    <a href="#s2" data-sec="s2"><span class="n">2</span>Performance vs Scalability<span class="done">✓</span></a>
+    <a href="#s3" data-sec="s3"><span class="n">3</span>Latency vs Throughput<span class="done">✓</span></a>
+    <a href="#s4" data-sec="s4"><span class="n">4</span>Availability vs Consistency<span class="done">✓</span></a>
+    <a href="#s5" data-sec="s5"><span class="n">5</span>CAP Theorem<span class="done">✓</span></a>
+    <a href="#s6" data-sec="s6"><span class="n">6</span>Consistency Patterns<span class="done">✓</span></a>
+    <a href="#s7" data-sec="s7"><span class="n">7</span>Availability Patterns<span class="done">✓</span></a>
+    <a href="#s8" data-sec="s8"><span class="n">8</span>Background Jobs<span class="done">✓</span></a>
+    <a href="#s9" data-sec="s9"><span class="n">9</span>Domain Name System<span class="done">✓</span></a>
+    <a href="#s10" data-sec="s10"><span class="n">10</span>Content Delivery Networks<span class="done">✓</span></a>
+    <a href="#s11" data-sec="s11"><span class="n">11</span>Load Balancers<span class="done">✓</span></a>
+    <a href="#s12" data-sec="s12"><span class="n">12</span>Horizontal Scaling<span class="done">✓</span></a>
+    <a href="#s13" data-sec="s13"><span class="n">13</span>Databases<span class="done">✓</span></a>
+    <a href="#s14" data-sec="s14"><span class="n">14</span>Caching<span class="done">✓</span></a>
+    <a href="#s15" data-sec="s15"><span class="n">15</span>Asynchronism<span class="done">✓</span></a>
+    <a href="#s16" data-sec="s16"><span class="n">16</span>Communication<span class="done">✓</span></a>
+    <a href="#s17" data-sec="s17"><span class="n">17</span>Performance Antipatterns<span class="done">✓</span></a>
+    <a href="#s18" data-sec="s18"><span class="n">18</span>Monitoring<span class="done">✓</span></a>
+    <a href="#s19" data-sec="s19"><span class="n">19</span>Cloud Design Patterns<span class="done">✓</span></a>
+    <a href="#s20" data-sec="s20"><span class="n">20</span>Next tracks<span class="done">✓</span></a>
+    <div class="navgroup">Study system</div>
+    <a href="#study-order"><span class="n">·</span>Recommended study order</a>
+    <a href="#plan"><span class="n">·</span>12-week plan</a>
+    <a href="#checklist"><span class="n">·</span>Final checklist</a>
+    <a href="#notes"><span class="n">·</span>Notes &amp; open questions</a>
+  </nav>
+</aside>
+
+<main>
+<div class="wrap">
+
+<!-- ============================= OVERVIEW ============================= -->
+<header id="overview">
+  <div class="eyebrow">Documentation · System Design</div>
+  <h1>The complete system design roadmap, explained</h1>
+  <p class="lede">Every section and sub-topic of the <a href="https://roadmap.sh/system-design">roadmap.sh system design roadmap</a> — in its original order, with nothing skipped — written as study documentation: what each topic is in plain language, why it matters, the core concepts, the interview traps, practice exercises, and <strong>genuinely free resources only</strong> for every topic.</p>
+  <div class="meta">
+    <span><b>20</b> sections</span>
+    <span><b>150+</b> sub-topics &amp; patterns</span>
+    <span><b>18</b> free resource hubs</span>
+    <span><b>12-week</b> study plan included</span>
+    <span>Roadmap hierarchy verified live <b>28 Oct 2026</b></span>
+  </div>
+  <div class="searchbar">
+    <input type="search" id="search" placeholder="Search topics — try “sharding”, “circuit breaker”, “gRPC”…" aria-label="Search topics" />
+    <select id="jump" aria-label="Jump to a section">
+      <option value="">Jump to section…</option>
+      <option value="#s1">1 · Introduction</option><option value="#s2">2 · Performance vs Scalability</option>
+      <option value="#s3">3 · Latency vs Throughput</option><option value="#s4">4 · Availability vs Consistency</option>
+      <option value="#s5">5 · CAP Theorem</option><option value="#s6">6 · Consistency Patterns</option>
+      <option value="#s7">7 · Availability Patterns</option><option value="#s8">8 · Background Jobs</option>
+      <option value="#s9">9 · Domain Name System</option><option value="#s10">10 · Content Delivery Networks</option>
+      <option value="#s11">11 · Load Balancers</option><option value="#s12">12 · Horizontal Scaling</option>
+      <option value="#s13">13 · Databases</option><option value="#s14">14 · Caching</option>
+      <option value="#s15">15 · Asynchronism</option><option value="#s16">16 · Communication</option>
+      <option value="#s17">17 · Performance Antipatterns</option><option value="#s18">18 · Monitoring</option>
+      <option value="#s19">19 · Cloud Design Patterns</option><option value="#s20">20 · Next tracks</option>
+      <option value="#study-order">Study order</option><option value="#plan">12-week plan</option><option value="#checklist">Final checklist</option>
+    </select>
+  </div>
+  <div class="searchnote" id="searchNote" aria-live="polite"></div>
+  <div class="callout">
+    <p><span class="ct">How to read these docs.</span> Each section follows the same shape: <b>What it is</b> (plain language), <b>Why it matters</b> (interviews + real systems), <b>Core concepts</b>, <b>Interview traps</b>, <b>Practice</b>, and a <b>Free resources</b> box. Do practice timed — 35–45 minutes, out loud, on a blank page. Reading a solution does not count.</p>
+    <p><span class="ct">Free means free.</span> Every resource linked here is free to read without payment — open-source repos, official docs, university material, free articles. Paid staples often recommended elsewhere (Alex Xu's <i>System Design Interview</i>, Kleppmann's <i>Designing Data-Intensive Applications</i>, Educative's Grokking) are deliberately <b>not</b> listed, because they are not free. Where a platform also sells something, that is flagged in the resource note.</p>
+  </div>
+</header>
+
+<!-- ============================= BACKBONE ============================= -->
+<section class="doc" id="backbone">
+  <div class="sec-head"><div class="sec-num">✦</div><div><h2>Backbone free resources</h2><div class="sub">Four hubs cover nearly the whole roadmap. Each section below then adds targeted sources per sub-topic.</div></div></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Hub</th><th>Free status</th><th>What it covers</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/donnemartin/system-design-primer">The System Design Primer</a> (GitHub, ~376k stars)</td><td>Free, open source</td><td>Sections 1–18 almost entirely, plus Anki flashcards and worked interview solutions (Pastebin/Bitly, Twitter timeline, web crawler, Mint, social network, key-value store, Amazon sales ranking, AWS-scale system). Its table of contents mirrors the roadmap almost exactly.</td></tr>
+      <tr><td><a href="https://roadmap.sh/system-design">roadmap.sh — System Design</a></td><td>Free to read; optional free signup only for progress tracking</td><td>The hierarchy itself, node by node — click any node for its own explainer page.</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/azure/architecture/">Microsoft Azure Architecture Center</a></td><td>Free official docs</td><td>Cloud Design Patterns (Section 19), microservices patterns, architecture styles. Start at the hub, then search the pattern name inside it.</td></tr>
+      <tr><td><a href="https://azure.microsoft.com/en-us/blog/design-patterns-for-microservices/">Microsoft — Design patterns for microservices</a></td><td>Free article</td><td>Ambassador, Anti-Corruption Layer, Backends for Frontends, Bulkhead, Gateway Aggregation/Offloading and more — Section 19's Design &amp; Implementation group.</td></tr>
+      <tr><td><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-best-practices-ddos-resiliency/are-you-well-architected.html">AWS Well-Architected</a></td><td>Free official docs (the Tool itself needs an AWS sign-in; the guidance does not)</td><td>Reliability, performance, security and cost trade-offs across Sections 7, 18 and 19.</td></tr>
+      <tr><td><a href="https://www.hellointerview.com/blog/how-id-prepare">HelloInterview — how I'd prepare</a> · <a href="https://www.hellointerview.com/learn/system-design/problem-breakdowns/ticketmaster">Ticketmaster breakdown</a></td><td>Free articles to read; the platform also sells prep — not required for these articles</td><td>Interview approach, building blocks, and 10 practice problems in order: URL shortener → Dropbox → Ticketmaster → News Feed → WhatsApp → LeetCode → Uber → Web Crawler → Ad Click Aggregator.</td></tr>
+      <tr><td><a href="https://learncs.me/mit/6.824">MIT 6.824 / 6.5840 Distributed Systems</a></td><td>Free university course — lectures, notes, labs, papers, no registration</td><td>Deep dives: RPC, replication, Raft, ZooKeeper, Spanner, Dynamo, cache consistency, distributed transactions — Sections 5–7, 13, 15, 19. Links onward to the official course site.</td></tr>
+      <tr><td><a href="https://www.shaunabram.com/sre-resources/">Google SRE books — resources index</a></td><td>Free books online</td><td>Monitoring, alerting, SLIs/SLOs, capacity — Section 18. The index points to the free Google SRE books.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================= S1 ============================= -->
+<section class="doc sec" id="s1" data-title="Introduction What is System Design How to approach">
+  <div class="sec-head"><div class="sec-num">1</div><div><h2>Introduction</h2><div class="sub">What system design is — and the repeatable method for approaching any design problem.</div></div><button class="studied-btn" data-sec="s1">Mark studied</button></div>
+  <div class="chips"><span class="hot">What is System Design?</span><span class="hot">How to approach System Design?</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>Designing the components of a software system — clients, servers, databases, caches, queues, networks — and how they talk, so the system meets functional and non-functional requirements at a stated scale.</p><p>“How to approach it” is the interview method: <b>clarify requirements → estimate scale → define APIs → draw a high-level design → deep-dive bottlenecks → name trade-offs</b>.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Every system-design interview is graded on <b>process as much as the final diagram</b>. Candidates who jump to a diagram without requirements or numbers fail even with a correct-looking architecture.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Functional vs non-functional requirements</li><li>Back-of-the-envelope math: powers of two, QPS, storage, bandwidth</li><li>Latency numbers every programmer should know</li><li>Stating assumptions explicitly</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Designing before clarifying — users? reads vs writes? consistency needs?</li><li>Quoting numbers with no derivation</li><li>Never revisiting requirements after the deep dive</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design a URL shortener in 45 minutes using only the 6-step method — no peeking at solutions.</li><li>Re-do it with 10× traffic and list exactly which components change.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>What is System Design? / How to approach</b> — the Primer's “How to approach a system design interview question” (Steps 1–4 + back-of-the-envelope): <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Interview method + problem order</b> — <a href="https://www.hellointerview.com/blog/how-id-prepare">HelloInterview: how I'd prepare</a> (free article; platform also sells prep)</li>
+    <li><b>Roadmap node explainers</b> — <a href="https://roadmap.sh/system-design">roadmap.sh/system-design</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S2 ============================= -->
+<section class="doc sec" id="s2" data-title="Performance vs Scalability vertical horizontal scaling bottleneck">
+  <div class="sec-head"><div class="sec-num">2</div><div><h2>Performance vs Scalability</h2><div class="sub">Fast for one user is not the same as holding up under growth.</div></div><button class="studied-btn" data-sec="s2">Mark studied</button></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Performance</b> = how fast one request is, how much work one unit does. <b>Scalability</b> = how well the system keeps performing as load grows. A fast single server is not a scalable system.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Interviewers test whether you scale the <b>right dimension</b> — more machines, better algorithms, caching — instead of “just add servers” to a fundamentally slow design.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Vertical vs horizontal scaling</li><li>Bottlenecks — the slowest part caps the whole system</li><li>Amdahl-style limits, in plain terms</li><li>The cost of scaling</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Claiming “it scales” with no bottleneck named</li><li>Vertical scaling past its ceiling (CPU/RAM/disk on one box)</li><li>Scaling every tier equally instead of the bottleneck tier</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>A single-server blog gets 100× traffic — which tier breaks first, and in what order do you fix them?</li><li>Same exercise for a write-heavy logging pipeline.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Performance vs scalability</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>14 concepts covering most interviews</b> (incl. horizontal vs vertical scaling) — <a href="https://dev.to/mike_h_aef68ed6bf3417956d/the-14-system-design-concepts-that-cover-80-of-interviews-1c7j">dev.to overview</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S3 ============================= -->
+<section class="doc sec" id="s3" data-title="Latency vs Throughput p50 p95 p99 tail latency queuing bandwidth">
+  <div class="sec-head"><div class="sec-num">3</div><div><h2>Latency vs Throughput</h2><div class="sub">Time per request vs requests per second — and why the tail matters more than the average.</div></div><button class="studied-btn" data-sec="s3">Mark studied</button></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Latency</b> = time for one request to complete. <b>Throughput</b> = requests completed per unit time. They trade off: batching raises throughput but adds latency; parallelism can raise both — until a shared resource saturates.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>SLOs are stated in <b>p50/p95/p99 latency and QPS</b>. Confusing the two produces designs that are fast for one user and collapse under load — or the reverse.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>p50 / p95 / p99 — never just “average”</li><li>Queuing delay under load</li><li>Bandwidth vs latency</li><li>Latency numbers every programmer should know (Primer appendix)</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Reporting only averages — hides tail latency</li><li>Optimising throughput when the requirement is tail latency</li><li>Ignoring queuing delay as load rises</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Estimate p99 for a feed read that fans out to 20 services — what dominates the tail?</li><li>Design a video-upload path optimised for throughput, then a chat path optimised for latency — and contrast them.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Latency vs throughput + latency-numbers appendix</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S4 ============================= -->
+<section class="doc sec" id="s4" data-title="Availability vs Consistency stale reads error budget SLO">
+  <div class="sec-head"><div class="sec-num">4</div><div><h2>Availability vs Consistency</h2><div class="sub">Answer with possibly stale data, or refuse to answer wrongly? A per-operation choice.</div></div><button class="studied-btn" data-sec="s4">Mark studied</button></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Availability</b> = the system answers, even if the answer is stale. <b>Consistency</b> = every reader sees the latest write. In normal operation you can have both; under failure you must choose — <b>per operation, not per system</b>.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>This decision sits behind nearly every database, cache and replication choice in an interview. “We need both, always” is not an answer.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Read-after-write behaviour; stale reads</li><li>Error budgets and SLOs</li><li>Availability as a product decision — a bank balance vs a like count</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Treating availability/consistency as binary, system-wide properties</li><li>Choosing strong consistency for data that tolerates staleness — and paying for it in latency and availability</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>For a bank transfer vs a “like” counter, state the choice and its user-visible failure mode.</li><li>Design a shopping cart that stays available during a partition — what can go wrong at checkout?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Availability vs consistency</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S5 ============================= -->
+<section class="doc sec" id="s5" data-title="CAP Theorem AP CP partition tolerance Brewer Gilbert Lynch">
+  <div class="sec-head"><div class="sec-num">5</div><div><h2>CAP Theorem</h2><div class="sub">During a network partition, you cannot guarantee both consistency and availability.</div></div><button class="studied-btn" data-sec="s5">Mark studied</button></div>
+  <div class="chips"><span class="hot">AP — Availability + Partition Tolerance</span><span class="hot">CP — Consistency + Partition Tolerance</span><span>No “CA” node on the roadmap — see below</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>Brewer's theorem (proven by Gilbert &amp; Lynch, 2002): during a network partition, a distributed data store cannot guarantee both consistency and availability. Partition tolerance is <b>not optional</b> for a multi-node system on a real network — so the real choice is <b>CP vs AP when partitioned</b>, not “pick any two forever.”</p><p>That is why the roadmap shows no CA node: a system that cannot tolerate partitions is a single-node system.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Interviewers listen for exactly this nuance. The naive “pick two of three” answer — and any claim that a product “beats CAP” — are red flags.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li><b>Partition</b> = messages dropped or delayed between nodes</li><li><b>CP</b> — refuse or error rather than serve stale data</li><li><b>AP</b> — answer with possibly stale data, reconcile later</li><li>Tunable consistency as a spectrum, not a switch</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Saying “CA” for a distributed system</li><li>Applying CAP to a single-node database</li><li>Justifying a choice without naming the workload's tolerance for staleness vs downtime</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Classify: payment ledger, social feed, DNS, shopping cart — CP or AP, and what breaks in each choice?</li><li>Design a CP seat-reservation write path and an AP product-catalogue read path in the same system.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>CAP theorem overview</b> — definitions + the partition-time framing: <a href="https://en.wikipedia.org/wiki/Cap_theorem">Wikipedia: CAP theorem</a></li>
+    <li><b>AP / CP</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Deep dive</b> — Raft, Spanner, Dynamo: <a href="https://learncs.me/mit/6.824">MIT 6.824 Distributed Systems</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S6 ============================= -->
+<section class="doc sec" id="s6" data-title="Consistency Patterns Weak Eventual Strong linearizability causal CRDT read your writes">
+  <div class="sec-head"><div class="sec-num">6</div><div><h2>Consistency Patterns</h2><div class="sub">How strong a promise you make about what readers see, and when.</div></div><button class="studied-btn" data-sec="s6">Mark studied</button></div>
+  <div class="chips"><span class="hot">Weak Consistency</span><span class="hot">Eventual Consistency</span><span class="hot">Strong Consistency</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Strong</b> — after a write completes, all subsequent reads see it: the single-copy illusion. <b>Eventual</b> — reads converge to the latest value if writes stop, with no time bound promised. <b>Weak</b> — even weaker guarantees; reads may see an older value for an unbounded, implementation-defined window (typical of best-effort caches).</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>This is how you justify “eventual is fine for a like count, not for a bank balance” — the sentence interviewers want, with the reasoning behind it.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Linearizability (the strong end)</li><li>Causal consistency — a middle ground worth naming</li><li>Read-your-writes; monotonic reads</li><li>Conflict resolution: last-write-wins, CRDTs, application merge</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Promising eventual consistency with no reconciliation story</li><li>Strong consistency everywhere “to be safe” — latency + availability cost</li><li>Confusing eventual consistency with “no consistency”</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design a collaborative counter with eventual consistency — how do two offline increments merge?</li><li>Where in a news-feed system is strong consistency actually required?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Consistency patterns (Weak / Eventual / Strong)</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Causal &amp; eventual consistency lectures</b> — <a href="https://learncs.me/mit/6.824">MIT 6.824</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S7 ============================= -->
+<section class="doc sec" id="s7" data-title="Availability Patterns Fail-Over Active Active Passive Replication Master Slave Master Master nines 99.9 99.99 parallel sequence downtime">
+  <div class="sec-head"><div class="sec-num">7</div><div><h2>Availability Patterns</h2><div class="sub">Fail-over, replication, and the arithmetic of nines.</div></div><button class="studied-btn" data-sec="s7">Mark studied</button></div>
+  <div class="chips"><span class="hot">Fail-Over: Active–Active</span><span class="hot">Fail-Over: Active–Passive</span><span class="hot">Replication: Master–Slave</span><span class="hot">Replication: Master–Master</span><span class="hot">99.9% — three 9s</span><span class="hot">99.99% — four 9s</span><span class="hot">Availability in Parallel vs Sequence</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>How a system stays up when parts fail. <b>Fail-over</b> switches traffic to a standby. <b>Replication</b> keeps copies of data on several nodes. “Availability in numbers” converts uptime into allowed downtime: <b>99.9% ≈ 8h 46m/year; 99.99% ≈ 53 min/year</b>. Components <b>in sequence</b> multiply (each must be up); redundant components <b>in parallel</b> improve the total.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>“99.99%” is meaningless unless you can do the arithmetic, say where the nines come from — and name the single component that caps them.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li><b>Active–Active</b> — all nodes serve; needs conflict handling. <b>Active–Passive</b> — standby idle; simpler, with fail-over delay</li><li><b>Master–Slave</b> — single writer, read replicas, replication lag. <b>Master–Master</b> — multi-writer, needs conflict resolution</li><li>Heartbeats + health checks; fail-over that itself fails</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Adding nines instead of multiplying them</li><li>Active–active with no conflict story</li><li>Fail-over with no tested runbook — the standby that has never served traffic</li><li>Assuming replicas are instantly consistent</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Compute availability of LB (99.99%) → app (99.9%) → DB (99.95%) in sequence — then with a second DB replica in parallel.</li><li>Design fail-over for a single-writer database: what happens to in-flight writes during the switch?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Fail-Over, Replication, Availability in Numbers, Parallel vs Sequence</b> — Primer, “Availability patterns”: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Availability / reliability framing</b> — <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-best-practices-ddos-resiliency/are-you-well-architected.html">AWS Well-Architected</a></li>
+    <li><b>Replication deep dive</b> — primary–backup, Raft: <a href="https://learncs.me/mit/6.824">MIT 6.824</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S8 ============================= -->
+<section class="doc sec" id="s8" data-title="Background Jobs Event-Driven Schedule Driven Returning Results cron webhook polling dead letter">
+  <div class="sec-head"><div class="sec-num">8</div><div><h2>Background Jobs</h2><div class="sub">Work that must not block the user's request — and how the result gets back.</div></div><button class="studied-btn" data-sec="s8">Mark studied</button></div>
+  <div class="chips"><span class="hot">Event-Driven</span><span class="hot">Schedule Driven</span><span class="hot">Returning Results</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>Work that runs later, elsewhere. <b>Event-driven</b> jobs fire when something happens (a message, a webhook). <b>Schedule-driven</b> jobs fire on a clock (cron). <b>Returning results</b> is the often-forgotten half: how does the requester learn the outcome — polling, webhook/callback, websocket/push, or a results store?</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Video transcoding, email, reports, thumbnail generation, billing reconciliation — every classic design has a background-job component, and interviewers probe its failure modes: lost jobs, duplicate runs.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>At-least-once delivery + idempotency (Section 15)</li><li>Dead-letter queues</li><li>Retries with backoff</li><li>Job state machines; cron vs event triggers</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Fire-and-forget with no result path</li><li>Assuming a scheduled job runs exactly once</li><li>No idempotency — a retried job double-charges or double-sends</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design YouTube upload → transcode → notify, with a result path for a user who closes the tab.</li><li>Design a nightly billing job that must not double-bill if it crashes mid-run.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Asynchronism (task/message queues) + worked designs</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Kafka as the event-driven backbone</b> — <a href="https://kafka.apache.org/20/getting-started/introduction/">Apache Kafka introduction</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S9 ============================= -->
+<section class="doc sec" id="s9" data-title="Domain Name System DNS TTL A record CNAME resolver authoritative propagation">
+  <div class="sec-head"><div class="sec-num">9</div><div><h2>Domain Name System</h2><div class="sub">The internet's phone book — and its first, crude load balancer.</div></div><button class="studied-btn" data-sec="s9">Mark studied</button></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>DNS maps names to IP addresses, resolved through recursive resolvers and authoritative servers, with caching and TTLs. It is also a first, crude load-balancing and fail-over mechanism: multiple A records, geo-DNS, health-checked DNS fail-over.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>DNS is on the critical path of every request, and a favourite “hidden bottleneck” question: <b>TTL too long</b> = slow fail-over and stale routing; <b>TTL too short</b> = resolver load and latency.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>The resolution chain: resolver → root/TLD → authoritative</li><li>Record types: A/AAAA, CNAME, MX, TXT</li><li>TTL — “propagation” is really cache expiry, not magic</li><li>DNS load-balancing limits: no health awareness by default, client caching</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>“DNS changes propagate instantly”</li><li>Using DNS alone for fine-grained load balancing or instant fail-over</li><li>Forgetting DNS caching when debugging stale endpoints</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design DNS fail-over for a two-region site — how fast can you actually shift traffic, and what breaks?</li><li>Explain why a user still hits the old region after you “switched” DNS.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Domain name system</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>CDN/DNS explainer</b> (free plan noted; paid features optional) — <a href="https://www.fastcomet.com/tutorials/cloudflare/introduction">FastComet Cloudflare tutorial</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S10 ============================= -->
+<section class="doc sec" id="s10" data-title="Content Delivery Networks CDN Push Pull edge origin cache hit ratio purge anycast">
+  <div class="sec-head"><div class="sec-num">10</div><div><h2>Content Delivery Networks</h2><div class="sub">Edge servers near users, so requests don't travel to the origin.</div></div><button class="studied-btn" data-sec="s10">Mark studied</button></div>
+  <div class="chips"><span class="hot">Push CDNs</span><span class="hot">Pull CDNs</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Pull CDN</b> — the edge fetches from origin on first miss, then caches it (the common case). <b>Push CDN</b> — you upload content to the CDN's edge/storage up front; good for large, known files and pre-warmed releases.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>The single biggest latency lever for static, global content — the answer to “how does YouTube/Netflix serve the world?” — plus origin shielding under traffic spikes.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Cache hit ratio</li><li>TTL and purge/invalidation</li><li>Origin vs edge; static vs dynamic content (dynamic needs other techniques)</li><li>Anycast routing</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Personalised/dynamic data on a shared CDN cache</li><li>No purge strategy — stale JS/CSS after a deploy</li><li>Pull-CDN cold start: thundering herd on the origin</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design image/video delivery for a global launch — pull vs push, and your purge plan for a bad release.</li><li>A news homepage must update within 60 seconds worldwide — what TTL/purge design achieves it?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Content delivery network (Push / Pull)</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>CDN mechanics explainer</b> — <a href="https://www.fastcomet.com/tutorials/cloudflare/introduction">FastComet Cloudflare tutorial</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S11 ============================= -->
+<section class="doc sec" id="s11" data-title="Load Balancers reverse proxy algorithms round robin least connections IP hash Layer 7 Layer 4 sticky sessions health checks">
+  <div class="sec-head"><div class="sec-num">11</div><div><h2>Load Balancers</h2><div class="sub">Spreading traffic across healthy servers — by algorithm, at Layer 4 or Layer 7.</div></div><button class="studied-btn" data-sec="s11">Mark studied</button></div>
+  <div class="chips"><span class="hot">LB vs Reverse Proxy</span><span class="hot">Load Balancing Algorithms</span><span class="hot">Layer 7 Load Balancing</span><span class="hot">Layer 4 Load Balancing</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>A load balancer spreads traffic across healthy servers. A <b>reverse proxy</b> sits in front of servers and can also terminate TLS, cache, compress and route — every load balancer is a kind of reverse proxy, but not every reverse proxy load-balances.</p><p><b>Layer 4</b> (transport) balances on IP/port without inspecting content — fast, protocol-agnostic. <b>Layer 7</b> (application) inspects HTTP — host, path, headers, cookies — and routes intelligently: slower, smarter.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>It is the first component in almost every design diagram, and interviewers probe <b>algorithm choice + session handling</b>, not just “add an LB.”</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Algorithms: round robin, weighted round robin, least connections, least time, IP hash / consistent hashing, random</li><li>Health checks — active and passive</li><li>Sticky sessions — and why they are usually a smell</li><li>The LB is itself a single point of failure — LBs are redundant too</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Sticky sessions hiding a statelessness problem</li><li>Round robin across heterogeneous (mixed-size) servers</li><li>No health checks — the LB keeps sending traffic to a dead node</li><li>L7 routing without considering its latency/termination cost</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Choose an algorithm for: long-lived WebSocket connections; a fleet of mixed-size servers; a cache fleet where key locality matters. Justify each.</li><li>Design LB redundancy — what happens when the LB itself dies?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>LB vs Reverse Proxy; L4 vs L7; algorithms</b> — NGINX official docs: <a href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/">NGINX HTTP Load Balancing</a></li>
+    <li><b>Load balancer + Reverse proxy (web server)</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Algorithm comparison</b> — <a href="https://dev.to/mike_h_aef68ed6bf3417956d/the-14-system-design-concepts-that-cover-80-of-interviews-1c7j">14 system design concepts (dev.to)</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S12 ============================= -->
+<section class="doc sec" id="s12" data-title="Horizontal Scaling Application Layer Microservices Service Discovery stateless registry autoscaling monolith">
+  <div class="sec-head"><div class="sec-num">12</div><div><h2>Horizontal Scaling</h2><div class="sub">Adding machines — which only works when state, sessions and discovery are solved.</div></div><button class="studied-btn" data-sec="s12">Mark studied</button></div>
+  <div class="chips"><span class="hot">Application Layer</span><span class="hot">Microservices</span><span class="hot">Service Discovery</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>Scaling by adding more machines. The <b>application layer</b> must be (mostly) stateless for this to work. <b>Microservices</b> split one deployable into independently deployable services by domain boundary. <b>Service discovery</b> is how services find each other as instances come and go — a registry + health checks, client-side or server-side.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>“Scale horizontally” is only credible if state, sessions and discovery are solved. Microservices are a <b>trade-off, not a default</b> — interviewers reward “start modular-monolith, extract when…” reasoning.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Statelessness; session externalisation</li><li>Autoscaling signals</li><li>Service boundaries: domain, team, data ownership</li><li>Discovery patterns; API gateway (Section 19)</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Microservices for a small system — the distributed-monolith pain: network latency, distributed transactions, deployment coupling</li><li>Services sharing one database — the boundary is fake</li><li>Hard-coded service addresses</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Scale a stateful, session-based app to 10× without sticky sessions.</li><li>Split a monolithic e-commerce app into services — draw the boundaries and name one thing that gets <i>harder</i> after the split.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Application layer (Microservices, Service Discovery) + Horizontal scaling</b> — <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Microservices patterns</b> — <a href="https://azure.microsoft.com/en-us/blog/design-patterns-for-microservices/">Microsoft: design patterns for microservices</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S13 ============================= -->
+<section class="doc sec" id="s13" data-title="Databases SQL NoSQL Replication Sharding Federation Denormalization SQL Tuning RDBMS Key-Value Document Wide Column Graph shard key hotspot index ACID">
+  <div class="sec-head"><div class="sec-num">13</div><div><h2>Databases</h2><div class="sub">Where durable state lives, how it scales — chosen by access pattern, not fashion.</div></div><button class="studied-btn" data-sec="s13">Mark studied</button></div>
+  <div class="chips"><span class="hot">SQL vs NoSQL</span><span class="hot">Replication</span><span class="hot">Sharding</span><span class="hot">Federation</span><span class="hot">Denormalization</span><span class="hot">SQL Tuning</span><span class="hot">RDBMS</span><span>Key-Value Store</span><span>Document Store</span><span>Wide Column Store</span><span>Graph Databases</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>RDBMS</b> = tables, relations, ACID, joins. <b>NoSQL</b> families trade some of that for scale and flexibility: <b>Key-Value</b> (simple lookups — Redis/DynamoDB-style), <b>Document</b> (JSON-like documents — MongoDB-style), <b>Wide Column</b> (huge sparse tables — Cassandra-style), <b>Graph</b> (nodes, edges, relationships — Neo4j-style).</p><p>Scaling tools: <b>replication</b> (copies), <b>sharding</b> (split rows across servers by a shard key), <b>federation</b> (split by <i>function</i> — users DB, orders DB), <b>denormalization</b> (duplicate data to avoid joins), <b>SQL tuning</b> (schema, indexes, query shape, partitioning, query cache).</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Database choice is the most consequential, hardest-to-reverse decision in a design. Interviewers judge it by <b>access pattern</b>, not by fashion.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Access-pattern-first selection</li><li>Shard-key choice and hotspots; the cost of cross-shard queries/transactions</li><li>Read scaling vs write scaling</li><li>Index trade-offs: faster reads, slower writes, more storage</li><li>Normalisation vs denormalisation; federation vs sharding (function split vs data split)</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>NoSQL “because scale” for relational, strongly-consistent data</li><li>A shard key that creates a hotspot — a celebrity user, a timestamp</li><li>Sharding before exhausting replication, caching and tuning</li><li>Denormalizing with no update/invalidation story</li><li>Indexing everything</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design storage for: URL shortener (key-value), social feed (document/wide-column + cache), fraud detection (graph) — justify each in one paragraph.</li><li>Pick a shard key for a multi-tenant orders table; name the query that becomes expensive and how you'd serve it.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Every database sub-topic in one place</b> — Primer, “Database” (RDBMS, replication, federation, sharding, denormalization, SQL tuning, SQL or NoSQL, all four NoSQL types): <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Sharding vs partitioning, shard keys, hot shards</b> — <a href="https://nick9knapp.org/blog-articles/postgresql/postgresql-scaling.html">PostgreSQL scaling notes</a></li>
+    <li><b>SQL vs NoSQL / indexing / sharding / replication overview</b> — <a href="https://dev.to/mike_h_aef68ed6bf3417956d/the-14-system-design-concepts-that-cover-80-of-interviews-1c7j">14 system design concepts (dev.to)</a></li>
+    <li><b>Distributed DB deep dives</b> — Spanner, Dynamo, Aurora: <a href="https://learncs.me/mit/6.824">MIT 6.824</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S14 ============================= -->
+<section class="doc sec" id="s14" data-title="Caching Refresh Ahead Write-behind Write-through Cache Aside Client CDN Web Server Database Application invalidation TTL stampede eviction LRU">
+  <div class="sec-head"><div class="sec-num">14</div><div><h2>Caching</h2><div class="sub">A fast, derived copy of slow data — where invalidation matters more than hit rates.</div></div><button class="studied-btn" data-sec="s14">Mark studied</button></div>
+  <div class="chips"><span class="hot">Refresh Ahead</span><span class="hot">Write-behind</span><span class="hot">Write-through</span><span class="hot">Cache Aside</span><span>Client Caching</span><span>CDN Caching</span><span>Web Server Caching</span><span>Database Caching</span><span>Application Caching</span><span>Types of Caching</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is — the four write patterns</h3><ul>
+      <li><b>Cache-Aside</b> — the app checks the cache and fills it on a miss. Most common; lazy.</li>
+      <li><b>Write-Through</b> — write cache + database together. Consistent, slower writes.</li>
+      <li><b>Write-Behind (Write-Back)</b> — write the cache first, the database asynchronously. Fast, with a risk of loss.</li>
+      <li><b>Refresh-Ahead</b> — proactively refresh hot keys before they expire.</li></ul>
+      <p style="margin-top:8px"><b>Strategies = where the cache lives:</b> Client, CDN, Web Server, Database, Application. “Types of Caching” also covers query-level and object-level caching.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Caching is the highest-leverage performance tool in interviews — and the easiest place to introduce stale-data bugs. Interviewers probe <b>invalidation</b> more than hit rates.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>TTL; invalidation — delete-on-write vs update-on-write</li><li>Cache stampede / thundering herd — and defences: request coalescing, jitter</li><li>Eviction: LRU / LFU; hot keys</li><li>“A cache is not a database” — losing it must be survivable</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Caching with no TTL or invalidation plan</li><li>Write-behind for data you cannot afford to lose</li><li>Per-user data cached under a shared key</li><li>No stampede protection when a popular key expires</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design caching for a product catalogue (read-heavy) vs a user profile (read-after-write) — different patterns; justify both.</li><li>A celebrity post's cache key expires: design the stampede defence.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Cache-Aside vs Write-Through vs Write-Behind, with Redis code</b> — incl. Refresh-Ahead, TTL, eviction: <a href="https://dev.to/prisminfoways/caching-strategies-explained-cache-aside-vs-write-through-vs-write-behind-with-redis-code-1gd0">Caching strategies explained (dev.to)</a></li>
+    <li><b>All strategies + all five caching layers</b> — Primer, “Cache”: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S15 ============================= -->
+<section class="doc sec" id="s15" data-title="Asynchronism Back Pressure Task Queues Message Queues Idempotent Operations Kafka at-least-once dead letter ordering partitions">
+  <div class="sec-head"><div class="sec-num">15</div><div><h2>Asynchronism</h2><div class="sub">Queues absorb spikes — and idempotency is what makes retries safe.</div></div><button class="studied-btn" data-sec="s15">Mark studied</button></div>
+  <div class="chips"><span class="hot">Back Pressure</span><span class="hot">Task Queues</span><span class="hot">Message Queues</span><span class="hot">Idempotent Operations</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Message queues</b> — durable streams between producers and consumers (Kafka-style logs, pub/sub). <b>Task queues</b> — units of work handed to workers, often with scheduling and retries. <b>Back pressure</b> — the mechanism that stops a fast producer overwhelming a slow consumer: bounded queues, throttling, shedding, consumer-driven pull. <b>Idempotent operations</b> — doing the same operation twice has the same effect as once (idempotency keys, dedup, conditional writes): the prerequisite for safe retries.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Async is how real systems absorb spikes — but “at-least-once + retry” without idempotency is how double-charges and duplicate emails happen. A classic senior-level probe.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>At-least-once vs at-most-once vs effectively-once delivery</li><li>Ordering guarantees — and their cost</li><li>Dead-letter queues; consumer groups and partitions</li><li>Pull vs push; bounded queues and load shedding</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Assuming exactly-once delivery from a queue</li><li>Unbounded queues — memory blow-up instead of honest back pressure</li><li>Retry without backoff (see Retry Storm, Section 17)</li><li>Non-idempotent webhook or payment handlers</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Design a payment webhook handler that survives duplicate delivery and crashes mid-processing.</li><li>A producer outruns consumers 10× for an hour — design the back-pressure and shedding behaviour, and what the user sees.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Message queues, task queues, back pressure</b> — Primer, “Asynchronism”: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Kafka introduction</b> — topics, partitions, producers/consumers, APIs: <a href="https://kafka.apache.org/20/getting-started/introduction/">Apache Kafka</a> · <a href="https://docs.confluent.io/kafka/introduction.html">Confluent Kafka intro</a></li>
+    <li><b>Idempotency in a real problem</b> — idempotent webhook handling in the <a href="https://www.hellointerview.com/learn/system-design/problem-breakdowns/ticketmaster">Ticketmaster breakdown</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S16 ============================= -->
+<section class="doc sec" id="s16" data-title="Communication HTTP TCP UDP RPC REST gRPC GraphQL protobuf streaming websocket versioning serialization">
+  <div class="sec-head"><div class="sec-num">16</div><div><h2>Communication</h2><div class="sub">How components talk — and how the protocol choice shapes latency, coupling and versioning.</div></div><button class="studied-btn" data-sec="s16">Mark studied</button></div>
+  <div class="chips"><span class="hot">HTTP</span><span class="hot">TCP</span><span class="hot">UDP</span><span class="hot">RPC</span><span class="hot">REST</span><span class="hot">gRPC</span><span class="hot">GraphQL</span></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol</th><th>What it is</th><th>Reach for it when</th></tr></thead>
+    <tbody>
+      <tr><td>TCP</td><td>Reliable, ordered byte stream, with handshake + congestion control.</td><td>The default transport under HTTP and most RPC.</td></tr>
+      <tr><td>UDP</td><td>Fast, unreliable datagrams.</td><td>Video, DNS, gaming — and it's QUIC's base.</td></tr>
+      <tr><td>HTTP</td><td>The web's request/response protocol over TCP — now HTTP/2 multiplexing, HTTP/3 over QUIC/UDP.</td><td>Almost everything client-facing.</td></tr>
+      <tr><td>RPC</td><td>Calling a remote function as if it were local (stubs, serialization).</td><td>Internal calls where a function-shaped API fits.</td></tr>
+      <tr><td>REST</td><td>Resource-oriented HTTP APIs — verbs + URLs + status codes.</td><td>Public developer APIs.</td></tr>
+      <tr><td>gRPC</td><td>Typed, contract-first RPC over HTTP/2 with Protocol Buffers and streaming.</td><td>Internal service-to-service calls at high volume.</td></tr>
+      <tr><td>GraphQL</td><td>Client-specified queries against a typed schema, usually over one endpoint.</td><td>Clients assembling varied, aggregated data (mobile, dashboards).</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="card why"><h3>Why it matters</h3><p>Protocol choice drives latency, coupling, versioning and debugging. Interviewers want “REST for public APIs, gRPC for internal high-volume calls, GraphQL where clients assemble varied data” — <b>with reasons, not slogans</b>.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Serialization: JSON vs Protobuf</li><li>Streaming: unary, server, client, bidirectional</li><li>Versioning and evolution; idempotent HTTP methods</li><li>Over-/under-fetching; N+1 in GraphQL resolvers</li><li>Push options: long polling vs WebSocket vs SSE</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>gRPC straight to browsers without a proxy layer</li><li>GraphQL with no query-complexity or depth limits</li><li>Chatty REST aggregation — N calls where one would do</li><li>RPC that hides network failure behind “local call” thinking</li></ul></div>
+    <div class="card practice"><h3>Practice</h3><ul><li>Pick a protocol for: a public developer API; internal checkout→inventory calls at 50k RPS; a mobile dashboard aggregating 8 sources. Justify each.</li><li>Version an API without breaking existing clients — show the evolution path.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>HTTP / TCP / UDP / RPC / REST</b> — Primer, “Communication”: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>REST vs gRPC vs GraphQL comparison</b> — fit + watch-outs: <a href="https://smartdev.com/ai-powered-apis-grpc-vs-rest-vs-graphql/">SmartDev comparison</a></li>
+    <li><b>RPC deep dive</b> — Lecture 2, RPC and Threads: <a href="https://learncs.me/mit/6.824">MIT 6.824</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S17 ============================= -->
+<section class="doc sec" id="s17" data-title="Performance Antipatterns Busy Database Busy Frontend Chatty IO Extraneous Fetching Improper Instantiation Monolithic Persistence No Caching Noisy Neighbor Retry Storm Synchronous IO">
+  <div class="sec-head"><div class="sec-num">17</div><div><h2>Performance Antipatterns</h2><div class="sub">Ten named ways systems get slow — learn to recognise each in a design, not just define it.</div></div><button class="studied-btn" data-sec="s17">Mark studied</button></div>
+  <div class="anti">
+    <div><b>Busy Database</b><p>The DB does work that belongs elsewhere (formatting, business logic). Move it out, cache, or precompute.</p></div>
+    <div><b>Busy Frontend</b><p>The client does heavy work or hauls huge payloads. Paginate, compress, move work server-side.</p></div>
+    <div><b>Chatty I/O</b><p>Many small round trips. Batch, aggregate (gateway aggregation), cache.</p></div>
+    <div><b>Extraneous Fetching</b><p>Fetching data nobody uses. Fetch only what's needed — GraphQL field selection helps here.</p></div>
+    <div><b>Improper Instantiation</b><p>Expensive objects created per-request. Pool/reuse, lazy-init.</p></div>
+    <div><b>Monolithic Persistence</b><p>One database for everything. Split by access pattern (federation, Section 13).</p></div>
+    <div><b>No Caching</b><p>Every request hits origin/DB. Add the Section 14 layer that fits.</p></div>
+    <div><b>Noisy Neighbor</b><p>One tenant or workload starves the others. Isolation, quotas, bulkheads (Section 19).</p></div>
+    <div><b>Retry Storm</b><p>Retries amplify an outage. Backoff, jitter, circuit breaker, retry budgets.</p></div>
+    <div><b>Synchronous I/O</b><p>Blocking waits cascade. Go async with queues (Section 15); timeouts everywhere.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card why"><h3>Why it matters</h3><p>Senior interviewers often ask “what's wrong with this design?” Antipattern-spotting is exactly that skill — and it transfers directly to production debugging.</p></div>
+    <div class="card practice"><h3>Practice</h3><ul><li>Given a slow feed page, diagnose which 3 antipatterns are present from its request trace.</li><li>Take your Section 1 URL-shortener design and deliberately inject — then fix — Chatty I/O, No Caching and Retry Storm.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Worked designs</b> — spot the antipattern in each before reading the solution: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></li>
+    <li><b>Antipattern-adjacent reliability guidance</b> — <a href="https://learn.microsoft.com/en-us/azure/architecture/">Azure Architecture Center</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S18 ============================= -->
+<section class="doc sec" id="s18" data-title="Monitoring Health Availability Performance Security Usage Instrumentation Visualization Alerts SRE golden signals SLI SLO tracing dashboards">
+  <div class="sec-head"><div class="sec-num">18</div><div><h2>Monitoring</h2><div class="sub">Knowing the system is broken before users tell you.</div></div><button class="studied-btn" data-sec="s18">Mark studied</button></div>
+  <div class="chips"><span class="hot">Health Monitoring</span><span class="hot">Availability Monitoring</span><span class="hot">Performance Monitoring</span><span class="hot">Security Monitoring</span><span class="hot">Usage Monitoring</span><span class="hot">Instrumentation</span><span class="hot">Visualization &amp; Alerts</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p><b>Health</b> — is it alive and responding correctly (health endpoints). <b>Availability</b> — is it up for users (probes, SLOs). <b>Performance</b> — latency, throughput, saturation. <b>Security</b> — auth failures, anomalies, audit trails. <b>Usage</b> — who uses what; capacity planning. <b>Instrumentation</b> — the metrics, logs and traces the code emits: the prerequisite, because you can't monitor what you don't emit. <b>Visualization &amp; Alerts</b> — dashboards plus paging rules that page a human only for user-impacting, actionable problems.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Every design answer should end with “how will we know it broke, and how fast?” Designs without monitoring are incomplete in interviews and un-operable in production.</p></div>
+    <div class="card"><h3>Core concepts</h3><ul><li>Four golden signals: latency, traffic, errors, saturation</li><li>SLIs / SLOs / error budgets</li><li>White-box vs black-box monitoring; RED / USE methods</li><li>Alert fatigue — page on symptoms, ticket on causes</li><li>Tracing across services</li></ul></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>Alerting on CPU% instead of user symptoms</li><li>Paging for non-actionable alerts — pages get ignored</li><li>Dashboards nobody looks at</li><li>No tracing, so a slow fan-out can't be attributed</li></ul></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>Write the SLI/SLO and 3 paging alerts for your URL shortener.</li><li>A p99 spike appears with flat CPU — which instrumentation (traces, per-dependency latency) finds the culprit?</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Google SRE Book, Ch. 6 “Monitoring Distributed Systems”</b> — free book, via the index: <a href="https://www.shaunabram.com/sre-resources/">SRE resources index</a></li>
+    <li><b>Health Endpoint Monitoring pattern</b> — <a href="https://learn.microsoft.com/en-us/azure/architecture/">Azure Architecture Center</a> (search the pattern name inside the hub)</li>
+    <li><b>Monitoring in Well-Architected terms</b> — <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-best-practices-ddos-resiliency/are-you-well-architected.html">AWS Well-Architected</a></li>
+  </ul></div>
+</section>
+
+<!-- ============================= S19 ============================= -->
+<section class="doc sec" id="s19" data-title="Cloud Design Patterns Messaging Data Management Reliability Security CQRS Event Sourcing Circuit Breaker Bulkhead Strangler Fig Sidecar Gateway Leader Election Pub Sub Claim Check Saga Compensating Transaction Throttling Geodes Deployment Stamps Federated Identity Gatekeeper Valet Key">
+  <div class="sec-head"><div class="sec-num">19</div><div><h2>Cloud Design Patterns</h2><div class="sub">Named, reusable solutions to recurring distributed-systems problems — the roadmap's largest section.</div></div><button class="studied-btn" data-sec="s19">Mark studied</button></div>
+  <div class="callout"><p><span class="ct">The roadmap's own guidance:</span> “The design patterns given in this section are of varying importance. You don't need to master all of them. Simply get an overview of each and this will give you some insight into designing scalable systems.” Learn the <b>problem each pattern solves, when to use it, and its cost</b> — that is the interview-usable level.</p>
+  <p style="margin:0">A note on the map: several patterns appear under more than one group on the roadmap canvas (Queue-Based Load Leveling, Valet Key, CQRS, Static Content Hosting, Leader Election, Bulkhead, Circuit Breaker, Health Endpoint Monitoring…). Each is defined <b>once</b> below, under its primary group, and flagged <span style="font-weight:600;color:var(--amber)">also listed under…</span> where it cross-appears — they are not separate topics to learn twice.</p></div>
+  <div class="grid2">
+    <div class="card why"><h3>Why it matters</h3><p>Naming a pattern — “that's a Circuit Breaker / Strangler Fig / CQRS situation” — signals seniority instantly and compresses a long explanation into shared vocabulary. Misapplied patterns are equally revealing.</p></div>
+    <div class="card traps"><h3>Interview traps</h3><ul><li>CQRS / Event Sourcing on a simple CRUD app</li><li>Choreography with no observability — events vanish into the dark</li><li>A circuit breaker with no fallback</li><li>A strangler migration with no rollback</li><li>The gateway becoming a new monolith / single point of failure</li></ul></div>
+  </div>
+
+  <div class="pgroup">
+    <h3>Messaging patterns</h3>
+    <div class="pg-sub">How services exchange work and events without coupling or overload.</div>
+    <dl class="patterns">
+      <div><dt>Sequential Convoy</dt><dd>A set of messages that must be processed in order becomes a bottleneck convoy behind the slowest one — recognise and design around the ordering constraint.</dd></div>
+      <div><dt>Scheduling Agent Supervisor</dt><dd>An agent schedules asynchronous tasks and supervises them to completion, handling failures and retries. <i>Also under Reliability → Resiliency.</i></dd></div>
+      <div><dt>Queue-Based Load Leveling</dt><dd>A queue between producers and consumers absorbs spikes, so consumers work at a steady rate. <i>Also under Reliability → Availability.</i></dd></div>
+      <div><dt>Publisher / Subscriber</dt><dd>Publishers broadcast events; every interested consumer receives them, decoupled from the sender.</dd></div>
+      <div><dt>Priority Queue</dt><dd>Higher-priority work jumps the queue and is processed before lower-priority work.</dd></div>
+      <div><dt>Pipes and Filters</dt><dd>Decompose a processing task into a chain of independent stages (filters) connected by pipes. <i>Also under Design &amp; Implementation.</i></dd></div>
+      <div><dt>Competing Consumers</dt><dd>Multiple parallel workers pull from one queue to scale throughput.</dd></div>
+      <div><dt>Choreography</dt><dd>Services react to events with no central orchestrator — each service knows its own next step.</dd></div>
+      <div><dt>Claim Check</dt><dd>Store a large payload externally and pass a small reference (the claim check) through the messaging system instead.</dd></div>
+      <div><dt>Async Request Reply</dt><dd>Don't block waiting for slow work: accept the request, return immediately, deliver the result later.</dd></div>
+    </dl>
+  </div>
+
+  <div class="pgroup">
+    <h3>Data Management patterns</h3>
+    <div class="pg-sub">How data is stored, indexed, shared and read at scale.</div>
+    <dl class="patterns">
+      <div><dt>Valet Key</dt><dd>A time-limited, restricted token lets a client access storage directly, without routing data through the server. <i>Also under Security.</i></dd></div>
+      <div><dt>Static Content Hosting</dt><dd>Serve static assets directly from storage + CDN instead of the application server. <i>Also under Design &amp; Implementation.</i></dd></div>
+      <div><dt>Sharding</dt><dd>Split data across servers by a shard key — see Section 13 for the full treatment.</dd></div>
+      <div><dt>Materialized View</dt><dd>A precomputed read model, generated from source data, optimised for the queries that read it.</dd></div>
+      <div><dt>Index Table</dt><dd>A secondary lookup index over data that is otherwise keyed differently.</dd></div>
+      <div><dt>Event Sourcing</dt><dd>Store the sequence of events; derive current state by replaying them. Powerful audit trail — heavy machinery.</dd></div>
+      <div><dt>CQRS</dt><dd>Separate the read model from the write model so each can scale and evolve independently. <i>Also under Design &amp; Implementation.</i></dd></div>
+      <div><dt>Cache-Aside</dt><dd>The application loads data into the cache on a miss — see Section 14.</dd></div>
+    </dl>
+  </div>
+
+  <div class="pgroup">
+    <h3>Design &amp; Implementation patterns</h3>
+    <div class="pg-sub">How services are structured, migrated and fronted.</div>
+    <dl class="patterns">
+      <div><dt>Strangler Fig</dt><dd>Incrementally replace a legacy system, routing traffic to the new implementation piece by piece until the old one is gone.</dd></div>
+      <div><dt>Sidecar</dt><dd>Attach helper functionality (logging, proxying, config) in a separate process alongside a service.</dd></div>
+      <div><dt>Leader Election</dt><dd>Peers elect one coordinator among themselves — built on consensus. <i>Also under Reliability → Resiliency.</i></dd></div>
+      <div><dt>Gateway Routing</dt><dd>A single entry point routes requests to the right backend service.</dd></div>
+      <div><dt>Gateway Offloading</dt><dd>The gateway handles shared concerns — auth, TLS, throttling — so services don't each re-implement them.</dd></div>
+      <div><dt>Gateway Aggregation</dt><dd>One client call fans out to many services and aggregates the results — the fix for Chatty I/O.</dd></div>
+      <div><dt>External Config Store</dt><dd>Configuration lives outside the deployable, in a central store, so it can change without redeploying.</dd></div>
+      <div><dt>Compute Resource Consolidation</dt><dd>Co-locate related work onto shared compute to raise utilisation and cut cost.</dd></div>
+      <div><dt>Backends for Frontend</dt><dd>One tailored backend per client type (web, mobile, TV) instead of one generic API serving all.</dd></div>
+      <div><dt>Anti-Corruption Layer</dt><dd>A translation layer isolates new code from a legacy system's models and terminology.</dd></div>
+      <div><dt>Ambassador</dt><dd>An out-of-process proxy offloads connectivity concerns — retries, auth, monitoring — from the service.</dd></div>
+      <div><dt>Pipes and Filters</dt><dd>Defined under Messaging — the same staged-processing pattern, applied to service design.</dd></div>
+    </dl>
+  </div>
+
+  <div class="pgroup">
+    <h3>Reliability patterns</h3>
+    <div class="pg-sub">Availability, high availability, and resiliency — keeping the system useful while parts fail.</div>
+    <dl class="patterns">
+      <div><dt>Deployment Stamps</dt><dd>Deploy complete, repeatable scale units (stamps) and scale by adding units. <i>Availability group.</i></dd></div>
+      <div><dt>Geodes</dt><dd>A multi-region deployment pattern serving users from active regional deployments close to them. <i>Availability group.</i></dd></div>
+      <div><dt>Health Endpoint Monitoring</dt><dd>Expose an endpoint that reports real functional health, checked by external monitors — see Section 18. <i>Availability group; also under Resiliency.</i></dd></div>
+      <div><dt>Throttling</dt><dd>Limit how much of a resource a consumer may use, protecting the system under load. <i>Availability group.</i></dd></div>
+      <div><dt>Bulkhead</dt><dd>Isolate resources into compartments (like a ship's bulkheads) so one failure can't sink everything. <i>High Availability group; also under Resiliency.</i></dd></div>
+      <div><dt>Circuit Breaker</dt><dd>Fail fast instead of hammering a failing dependency; probe periodically for recovery. <i>High Availability group; also under Resiliency.</i></dd></div>
+      <div><dt>Compensating Transaction</dt><dd>Undo a multi-step (saga) operation with compensating actions when a later step fails. <i>Resiliency group.</i></dd></div>
+      <div><dt>Retry</dt><dd>Bounded retries with backoff for transient failures — unbounded, it becomes a Retry Storm (Section 17). <i>Resiliency group.</i></dd></div>
+      <div><dt>Scheduler Agent Supervisor</dt><dd>Defined under Messaging — schedule and supervise async work to a reliable conclusion. <i>Resiliency group.</i></dd></div>
+      <div><dt>Queue-Based Load Leveling</dt><dd>Defined under Messaging — the queue that smooths spikes is also a reliability tool. <i>Availability group.</i></dd></div>
+    </dl>
+  </div>
+
+  <div class="pgroup">
+    <h3>Security patterns</h3>
+    <div class="pg-sub">Who may call what, and through which single, guarded door.</div>
+    <dl class="patterns">
+      <div><dt>Federated Identity</dt><dd>Delegate authentication to an external identity provider — SSO instead of per-service credentials.</dd></div>
+      <div><dt>Gatekeeper</dt><dd>A single validation/enforcement point inspects and guards requests before they reach the application.</dd></div>
+      <div><dt>Valet Key</dt><dd>Defined under Data Management — time-limited direct storage access, without opening the storage up. <i>Cross-listed here.</i></dd></div>
+    </dl>
+  </div>
+
+  <div class="grid2">
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice</h3><ul><li>For each group, pick the one pattern you'd reach for first in: a legacy migration, a failing downstream, a spiky ingestion pipeline, a multi-client API.</li><li>Design a saga for order → payment → inventory using Compensating Transaction — and show the failure path.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>Pattern catalogue hub</b> — search each pattern name inside it: <a href="https://learn.microsoft.com/en-us/azure/architecture/">Azure Architecture Center</a></li>
+    <li><b>Microservices patterns overview</b> — Ambassador, Anti-Corruption Layer, Backends for Frontend, Bulkhead, Gateway Aggregation/Offloading: <a href="https://azure.microsoft.com/en-us/blog/design-patterns-for-microservices/">Microsoft article</a></li>
+    <li><b>Messaging backbone</b> — Kafka, for Pub/Sub, Competing Consumers, Queue-Based Load Leveling: <a href="https://kafka.apache.org/20/getting-started/introduction/">Apache Kafka introduction</a></li>
+  </ul>
+  <p class="note">Individual pattern pages inside the Azure hub were not each verified in the underlying research — use the hub link above and search the pattern name there, rather than guessing a per-pattern URL.</p></div>
+</section>
+
+<!-- ============================= S20 ============================= -->
+<section class="doc sec" id="s20" data-title="Next tracks Backend Software Architect DevOps Software Design and Architecture roadmaps">
+  <div class="sec-head"><div class="sec-num">20</div><div><h2>Next tracks</h2><div class="sub">Where the roadmap points you after system design itself.</div></div><button class="studied-btn" data-sec="s20">Mark studied</button></div>
+  <div class="chips"><span class="hot">Backend</span><span class="hot">Software Architect</span><span class="hot">DevOps</span><span>Backend Roadmap</span><span>DevOps Roadmap</span><span>Software Design and Architecture</span></div>
+  <div class="grid2">
+    <div class="card what"><h3>What it is</h3><p>The roadmap's sign-off: system design does not live alone. <b>Backend</b> depth (APIs, databases), <b>architecture</b> breadth (patterns, trade-offs) and <b>DevOps</b> (deployment, observability, reliability) are the adjacent tracks.</p></div>
+    <div class="card why"><h3>Why it matters</h3><p>Interviewers for senior and staff roles probe exactly these adjacencies: “How would you deploy this? How would you operate it?”</p></div>
+    <div class="card practice" style="grid-column:1/-1"><h3>Practice — the graduation exercise</h3><ul><li>Do one full design end-to-end, including deployment, rollout (Strangler Fig / Deployment Stamps), monitoring (Section 18), and a failure game-day.</li></ul></div>
+  </div>
+  <div class="res"><h4>Free resources <span class="free">Free</span></h4><ul>
+    <li><b>The three onward roadmaps</b>, free to read — linked from <a href="https://roadmap.sh/system-design">roadmap.sh/system-design</a> (Backend, DevOps, and Software Design and Architecture)</li>
+  </ul></div>
+</section>
+
+<!-- ============================= STUDY ORDER ============================= -->
+<section class="doc" id="study-order">
+  <div class="sec-head"><div class="sec-num">➤</div><div><h2>Recommended study order</h2><div class="sub">Don't study in strict roadmap order for interviews. The roadmap is a reference; this is a learning path — foundations first, then building blocks in the order they appear in real designs, then patterns, then timed practice.</div></div></div>
+  <ol class="steps">
+    <li><b>Method + math (Sections 1–3).</b> Approach, back-of-the-envelope estimation, latency vs throughput, performance vs scalability.</li>
+    <li><b>The distributed-systems core (Sections 4–7).</b> Availability vs consistency → CAP → consistency patterns → availability patterns (fail-over, replication, nines).</li>
+    <li><b>The request path (Sections 9–12).</b> DNS → CDN → load balancer → horizontal scaling, microservices, service discovery.</li>
+    <li><b>State (Sections 13–14).</b> Databases (SQL/NoSQL, sharding, replication) → caching (all four write patterns + all five layers).</li>
+    <li><b>Async + communication (Sections 8, 15–16).</b> Background jobs, queues, back pressure, idempotency → HTTP/TCP/UDP/RPC/REST/gRPC/GraphQL.</li>
+    <li><b>Operability (Sections 17–18).</b> Antipatterns as a diagnostic lens → monitoring.</li>
+    <li><b>Patterns (Section 19).</b> One overview pass over all groups; deep-dive only Circuit Breaker, Retry, Bulkhead, CQRS, Event Sourcing, Strangler Fig, the Gateway trio, Pub/Sub and Queue-Based Load Leveling.</li>
+    <li><b>Timed practice — continuous from week 5.</b> Two designs a week, then mocks.</li>
+  </ol>
+</section>
+
+<!-- ============================= PLAN ============================= -->
+<section class="doc" id="plan">
+  <div class="sec-head"><div class="sec-num">▦</div><div><h2>12-week plan — scratch to interview-ready</h2><div class="sub">~8–10 hours a week. Assumes a working backend developer comfortable with one language and basic SQL/HTTP. If a week is already familiar, skip to its practice block.</div></div></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Week</th><th>Focus</th><th>Do (not just read)</th><th>Done when…</th></tr></thead>
+    <tbody>
+      <tr><td>Week 1</td><td>§1–3: approach, estimation, latency/throughput, performance vs scalability</td><td>Primer start-here + scalability sections; 20 estimation drills (QPS, storage, bandwidth)</td><td>You can estimate any stated scale in under 5 minutes</td></tr>
+      <tr><td>Week 2</td><td>§4–7: CAP, consistency, availability, fail-over, replication</td><td>Primer availability/consistency sections; CAP article; nines arithmetic drills</td><td>You can defend a CP vs AP choice per workload</td></tr>
+      <tr><td>Week 3</td><td>§9–12: DNS, CDN, LB, horizontal scaling, microservices, discovery</td><td>NGINX LB docs; draw 3 request-path diagrams from scratch</td><td>You place LB/CDN/DNS correctly and choose an LB algorithm with reasons</td></tr>
+      <tr><td>Week 4</td><td>§13: databases</td><td>Primer database section; sharding article; pick SQL/NoSQL for 5 workloads, in writing</td><td>You can name a shard key + its hotspot + the expensive query for any design</td></tr>
+      <tr><td>Week 5</td><td>§14–15: caching, async, back pressure, idempotency</td><td>Caching-patterns article; Kafka intro; <b>first timed design: URL shortener</b></td><td>Cache pattern + invalidation plan is automatic in every design</td></tr>
+      <tr><td>Week 6</td><td>§16 + §8: communication protocols, background jobs</td><td>Protocol comparison; <b>timed designs: Pastebin, rate limiter</b></td><td>Protocol choice is justified, not defaulted</td></tr>
+      <tr><td>Week 7</td><td>§17–18: antipatterns, monitoring</td><td>SRE monitoring chapter; write SLI/SLO/alerts for your week 5–6 designs</td><td>Every design ends with a monitoring + failure section</td></tr>
+      <tr><td>Week 8</td><td>§19 (1/2): Messaging + Data Management patterns</td><td>Azure pattern pages, one per day; <b>timed designs: news feed, notification system</b></td><td>You can name the pattern for a problem in one sentence</td></tr>
+      <tr><td>Week 9</td><td>§19 (2/2): Design &amp; Implementation + Reliability + Security</td><td>Same rhythm; <b>timed designs: chat (WhatsApp), Dropbox</b></td><td>Strangler, gateway trio, breaker/bulkhead/retry are fluent</td></tr>
+      <tr><td>Week 10</td><td>Integration</td><td><b>Timed designs: Ticketmaster, Uber</b> — use the HelloInterview Ticketmaster breakdown only <i>after</i> your attempt. Two 45-min mocks, out loud, recorded if possible</td><td>You finish in time, with trade-offs + failure modes stated</td></tr>
+      <tr><td>Week 11</td><td>Integration</td><td><b>Timed designs: YouTube, web crawler, ad-click aggregator.</b> Mocks with a peer; revisit your weakest section per design</td><td>No roadmap node is a blank — every topic rings a bell</td></tr>
+      <tr><td>Week 12</td><td>Mock-interview week + final checklist</td><td>3 full mocks (45 min each) — one read-heavy, one write-heavy, one real-time; Primer Anki decks for spaced review</td><td>You pass the checklist below with no unchecked core item</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><span class="ct">Only have 4 weeks?</span> Do weeks 1–2 fully, week 5's caching/async, then the practice set from weeks 10–12 (URL shortener, news feed, chat, Ticketmaster, rate limiter). Breadth of practice beats finishing Section 19.</p></div>
+</section>
+
+<!-- ============================= CHECKLIST ============================= -->
+<section class="doc" id="checklist">
+  <div class="sec-head"><div class="sec-num">✓</div><div><h2>Final checklist — the whole roadmap</h2><div class="sub">Count an item done only when you can explain it unprompted and use it in a design. “Read it” ≠ done.</div></div></div>
+
+  <div class="check-group"><h3>Foundations</h3><ul class="checklist">
+    <li><b>What is System Design? / How to approach System Design?</b> — 6-step method + estimation</li>
+    <li><b>Performance vs Scalability; Latency vs Throughput</b> — p50/p95/p99</li>
+    <li><b>Availability vs Consistency; CAP Theorem; AP; CP</b> — and why there is no CA node</li>
+    <li><b>Consistency Patterns:</b> Weak; Eventual; Strong</li>
+    <li><b>Availability Patterns:</b> Fail-Over (Active–Active, Active–Passive); Replication (Master–Slave, Master–Master); Availability in Numbers (99.9%, 99.99%); Parallel vs Sequence</li>
+  </ul></div>
+
+  <div class="check-group"><h3>Building blocks</h3><ul class="checklist">
+    <li><b>Background Jobs:</b> Event-Driven; Schedule Driven; Returning Results</li>
+    <li><b>Domain Name System</b></li>
+    <li><b>Content Delivery Networks:</b> Push CDNs; Pull CDNs</li>
+    <li><b>Load Balancers:</b> LB vs Reverse Proxy; Load Balancing Algorithms; Layer 7; Layer 4</li>
+    <li><b>Horizontal Scaling:</b> Application Layer; Microservices; Service Discovery</li>
+    <li><b>Databases:</b> SQL vs NoSQL; Replication; Sharding; Federation; Denormalization; SQL Tuning; RDBMS; Key-Value; Document; Wide Column; Graph</li>
+    <li><b>Caching:</b> Refresh Ahead; Write-behind; Write-through; Cache Aside; Strategies (Client, CDN, Web Server, Database, Application); Types of Caching</li>
+    <li><b>Asynchronism:</b> Back Pressure; Task Queues; Message Queues; Idempotent Operations</li>
+    <li><b>Communication:</b> HTTP; TCP; UDP; RPC; REST; gRPC; GraphQL</li>
+  </ul></div>
+
+  <div class="check-group"><h3>Operability</h3><ul class="checklist">
+    <li><b>Performance Antipatterns:</b> Busy Database; Busy Frontend; Chatty I/O; Extraneous Fetching; Improper Instantiation; Monolithic Persistence; No Caching; Noisy Neighbor; Retry Storm; Synchronous I/O</li>
+    <li><b>Monitoring:</b> Health; Availability; Performance; Security; Usage; Instrumentation; Visualization &amp; Alerts</li>
+  </ul></div>
+
+  <div class="check-group"><h3>Cloud Design Patterns (overview level, per the roadmap's own note)</h3><ul class="checklist">
+    <li><b>Messaging:</b> Sequential Convoy; Scheduling Agent Supervisor; Queue-Based Load Leveling; Publisher/Subscriber; Priority Queue; Pipes and Filters; Competing Consumers; Choreography; Claim Check; Async Request Reply</li>
+    <li><b>Data Management:</b> Valet Key; Static Content Hosting; Sharding; Materialized View; Index Table; Event Sourcing; CQRS; Cache-Aside</li>
+    <li><b>Design &amp; Implementation:</b> Strangler Fig; Sidecar; Pipes &amp; Filters; Leader Election; Gateway Routing; Gateway Offloading; Gateway Aggregation; External Config Store; Compute Resource Consolidation; Backends for Frontend; Anti-Corruption Layer; Ambassador</li>
+    <li><b>Reliability:</b> Deployment Stamps; Geodes; Health Endpoint Monitoring; Queue-Based Load Leveling; Throttling; Bulkhead; Circuit Breaker; Compensating Transaction; Retry; Scheduler Agent Supervisor</li>
+    <li><b>Security:</b> Federated Identity; Gatekeeper; Valet Key</li>
+  </ul></div>
+
+  <div class="check-group"><h3>Practice proof — the real gate</h3><ul class="checklist">
+    <li><b>8–10 timed designs completed</b> — URL shortener, news feed, chat, Ticketmaster, rate limiter, Dropbox, Uber, YouTube / web crawler as the minimum set</li>
+    <li><b>At least 2 full mocks</b> done out loud, in 45 minutes, with trade-offs and failure modes stated</li>
+    <li><b>Re-derive without notes:</b> nines arithmetic, a shard key + hotspot, a cache-invalidation plan, a CP/AP choice, an idempotent retry</li>
+  </ul></div>
+</section>
+
+<!-- ============================= NOTES ============================= -->
+<section class="doc" id="notes">
+  <div class="sec-head"><div class="sec-num">?</div><div><h2>Notes &amp; open questions</h2><div class="sub">Honest caveats from the research behind these docs, so nothing here overclaims.</div></div></div>
+  <div class="card" style="margin-top:12px"><ul>
+    <li><b>Canvas parentage:</b> the roadmap is a visual canvas, not a text outline. The hierarchy was verified live on 28 Oct 2026, but for a handful of nodes (e.g. whether “Types of Caching” is a sibling of “Strategies” or its parent; whether “Returning Results” sits under Background Jobs or beside it) the visual grouping is ambiguous in text form. These docs present the most defensible reading and flag cross-listed patterns rather than inventing a hierarchy.</li>
+    <li><b>Azure pattern pages:</b> the Architecture Center hub URL is verified; each of the ~40 individual pattern pages was not opened. Search the pattern name inside the hub — no per-pattern URL has been guessed anywhere in these docs.</li>
+    <li><b>No video resources:</b> free YouTube material exists, but specific video URLs were not individually verified, so none are listed. The text-based free resources above cover every topic without them.</li>
+    <li><b>HelloInterview boundary:</b> its learn articles and the Ticketmaster breakdown were readable free; some platform features are paid. If an article later gates, fall back to the Primer section for the same topic.</li>
+    <li><b>Version drift:</b> roadmap.sh is actively edited (the page was updated 2026-03-03). If a node is added or renamed, re-check the hierarchy against the live page.</li>
+  </ul></div>
+</section>
+
+<footer>
+  <h3>Sources</h3>
+  <ul>
+    <li>Roadmap hierarchy — verified live, 2026-10-28: <a href="https://roadmap.sh/system-design">roadmap.sh/system-design</a></li>
+    <li>System Design Primer — verified public GitHub repo, 2026-10-28: <a href="https://github.com/donnemartin/system-design-primer">github.com/donnemartin/system-design-primer</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Cap_theorem">CAP theorem (Wikipedia)</a> · <a href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/">NGINX load balancing docs</a> · <a href="https://learn.microsoft.com/en-us/azure/architecture/">Azure Architecture Center</a> · <a href="https://azure.microsoft.com/en-us/blog/design-patterns-for-microservices/">Azure microservices patterns</a></li>
+    <li><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-best-practices-ddos-resiliency/are-you-well-architected.html">AWS Well-Architected</a> · <a href="https://kafka.apache.org/20/getting-started/introduction/">Kafka introduction</a> · <a href="https://docs.confluent.io/kafka/introduction.html">Confluent Kafka intro</a> · <a href="https://learncs.me/mit/6.824">MIT 6.824 index</a> · <a href="https://www.shaunabram.com/sre-resources/">SRE resources index</a></li>
+    <li><a href="https://www.hellointerview.com/blog/how-id-prepare">HelloInterview preparation guide</a> · <a href="https://www.hellointerview.com/learn/system-design/problem-breakdowns/ticketmaster">HelloInterview Ticketmaster breakdown</a> · <a href="https://dev.to/prisminfoways/caching-strategies-explained-cache-aside-vs-write-through-vs-write-behind-with-redis-code-1gd0">Caching strategies (dev.to)</a> · <a href="https://dev.to/mike_h_aef68ed6bf3417956d/the-14-system-design-concepts-that-cover-80-of-interviews-1c7j">14 system design concepts (dev.to)</a></li>
+    <li><a href="https://smartdev.com/ai-powered-apis-grpc-vs-rest-vs-graphql/">REST vs gRPC vs GraphQL (SmartDev)</a> · <a href="https://nick9knapp.org/blog-articles/postgresql/postgresql-scaling.html">PostgreSQL sharding vs partitioning</a> · <a href="https://www.fastcomet.com/tutorials/cloudflare/introduction">CDN/DNS explainer (FastComet)</a></li>
+  </ul>
+  <p style="margin-top:14px">Built from the roadmap.sh system design roadmap. All linked resources are free to read; where a platform also sells something, the resource note says so.</p>
+</footer>
+
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var studied = {};
+  var TOTAL = 20;
+
+  function updateProgress(){
+    var n = Object.keys(studied).filter(function(k){return studied[k];}).length;
+    document.getElementById('progLabel').textContent = n + ' / ' + TOTAL;
+    document.getElementById('progBar').style.width = (n / TOTAL * 100) + '%';
+  }
+
+  /* Mark-studied toggles (in-memory, this visit only) */
+  var btns = document.querySelectorAll('.studied-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var sec = btn.getAttribute('data-sec');
+      studied[sec] = !studied[sec];
+      btn.classList.toggle('on', studied[sec]);
+      btn.textContent = studied[sec] ? '✓ Studied' : 'Mark studied';
+      var nav = document.querySelector('nav a[data-sec="' + sec + '"]');
+      if (nav) nav.classList.toggle('is-done', studied[sec]);
+      updateProgress();
+    });
+  });
+
+  /* Mobile nav toggle */
+  var navEl = document.getElementById('sidenav');
+  var tog = document.getElementById('navToggle');
+  tog.addEventListener('click', function(){
+    var open = navEl.classList.toggle('open');
+    tog.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navEl.addEventListener('click', function(e){
+    if (e.target.closest('a') && window.innerWidth <= 900) navEl.classList.remove('open');
+  });
+
+  /* Jump select */
+  document.getElementById('jump').addEventListener('change', function(){
+    if (this.value){
+      showAll();
+      var t = document.querySelector(this.value);
+      if (t) t.scrollIntoView({behavior:'smooth', block:'start'});
+      this.value = '';
+    }
+  });
+
+  /* Search: filter the 20 roadmap sections by title + body text */
+  var searchInput = document.getElementById('search');
+  var note = document.getElementById('searchNote');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.sec'));
+  function showAll(){
+    sections.forEach(function(s){ s.classList.remove('hidden'); });
+    note.textContent = '';
+    searchInput.value = '';
+  }
+  var timer = null;
+  searchInput.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var q = searchInput.value.trim().toLowerCase();
+      if (!q){ sections.forEach(function(s){ s.classList.remove('hidden'); }); note.textContent=''; return; }
+      var shown = 0;
+      sections.forEach(function(s){
+        var hay = (s.getAttribute('data-title') + ' ' + s.textContent).toLowerCase();
+        var hit = q.split(/\s+/).every(function(w){ return hay.indexOf(w) !== -1; });
+        s.classList.toggle('hidden', !hit);
+        if (hit) shown++;
+      });
+      note.textContent = shown === 0
+        ? 'No roadmap section matches “' + searchInput.value.trim() + '”. Try a shorter term — e.g. “cache”, “queue”, “gateway”.'
+        : 'Showing ' + shown + ' of 20 roadmap sections matching “' + searchInput.value.trim() + '”. Clear the search to see everything.';
+    }, 120);
+  });
+
+  /* Scroll-spy for the sidebar */
+  var links = {};
+  document.querySelectorAll('nav a[href^="#"]').forEach(function(a){
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        Object.keys(links).forEach(function(k){ links[k].classList.remove('active'); });
+        var a = links[en.target.id];
+        if (a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-12% 0px -70% 0px'});
+  document.querySelectorAll('[id]').forEach(function(el){
+    if (links[el.id] && (el.tagName === 'SECTION' || el.tagName === 'HEADER')) spy.observe(el);
+  });
+  updateProgress();
+})();
+</script>
+</body>
+</html>

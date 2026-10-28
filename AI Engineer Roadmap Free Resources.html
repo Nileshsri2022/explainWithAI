@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>AI Engineer Roadmap — Free Resources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF9F5; --bg-soft:#F3F1EA; --surface:#FFFFFF; --surface-2:#F5F2EB;
+    --ink:#23211E; --ink-2:#4A4741; --muted:#7A756C; --faint:#9A958A;
+    --line:#E7E2D6; --line-2:#DDD6C6;
+    --clay:#C15F3C; --clay-dark:#A84E2F; --clay-soft:#FAEDE6; --clay-soft-2:#F6DDD0;
+    --sage:#3E6B4F; --sage-soft:#EAF1EC;
+    --amber:#8A6D1B; --amber-soft:#FBF3D9; --amber-line:#EAD98F;
+    --radius:16px;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#262624; --bg-soft:#2E2E2B; --surface:#30302E; --surface-2:#2A2A28;
+      --ink:#EDEBE6; --ink-2:#CFCBC2; --muted:#A8A49A; --faint:#8A877F;
+      --line:#3E3E3A; --line-2:#4A4A45;
+      --clay:#E08A67; --clay-dark:#E89A7B; --clay-soft:#3D2E27; --clay-soft-2:#4A352C;
+      --sage:#8FC1A2; --sage-soft:#2C3530;
+      --amber:#E3C86B; --amber-soft:#38331F; --amber-line:#5A5128;
+      color-scheme:dark;
+    }
+  }
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,p,ul,ol,figure,blockquote{margin:0}
+  ul,ol{padding:0;list-style:none}
+  a{color:var(--clay);text-decoration-color:color-mix(in srgb,var(--clay) 45%,transparent);text-underline-offset:3px}
+  a:hover{color:var(--clay-dark)}
+  button,input{font:inherit;color:inherit}
+  ::selection{background:var(--clay-soft-2)}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  .serif{font-family:"Source Serif 4",Georgia,"Times New Roman",serif}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 0 8px}
+  .eyebrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+  .eyebrow .dot{width:4px;height:4px;border-radius:50%;background:var(--faint)}
+  .hero h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:clamp(34px,5.4vw,52px);line-height:1.08;letter-spacing:-.015em;margin-top:18px;max-width:16em}
+  .hero h1 em{font-style:italic;color:var(--clay)}
+  .lede{margin-top:20px;font-size:18px;line-height:1.65;color:var(--ink-2);max-width:42em}
+  .lede strong{color:var(--ink);font-weight:600}
+  .hero-meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;font-weight:550;color:var(--ink-2)}
+  .pill b{color:var(--ink);font-weight:700}
+  .pill .sw{width:8px;height:8px;border-radius:50%;background:var(--clay);flex:none}
+
+  .callout{margin-top:30px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;display:grid;grid-template-columns:44px 1fr;gap:16px}
+  .callout-icon{width:44px;height:44px;border-radius:12px;background:var(--clay-soft);color:var(--clay);display:grid;place-items:center;flex:none}
+  .callout h2{font-family:"Source Serif 4",Georgia,serif;font-size:21px;font-weight:600;line-height:1.3}
+  .callout p{margin-top:7px;color:var(--ink-2);font-size:15px}
+  .callout p strong{color:var(--ink)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+  .stat{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .stat .num{font-family:"Source Serif 4",Georgia,serif;font-size:30px;font-weight:600;line-height:1}
+  .stat .lab{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.45}
+
+  /* ---------- Sections ---------- */
+  section{padding:44px 0 4px}
+  .sec-head{margin-bottom:20px}
+  .sec-head h2{font-family:"Source Serif 4",Georgia,serif;font-size:29px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+  .sec-head p{margin-top:8px;color:var(--ink-2);max-width:44em;font-size:15.5px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+
+  /* $0 rule */
+  .zero{display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;padding:0}
+  .zero>div{padding:24px}
+  .zero>div+div{border-left:1px solid var(--line)}
+  .zero h3{font-size:15px;font-weight:700;display:flex;gap:9px;align-items:center}
+  .zero h3 svg{color:var(--clay);flex:none}
+  .zero p,.zero li{font-size:14.5px;color:var(--ink-2)}
+  .zero p{margin-top:8px}
+  .zero ul{margin-top:10px;display:grid;gap:8px}
+  .zero li{display:flex;gap:9px}
+  .zero li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--clay);margin-top:9px;flex:none}
+  .zero code{font-family:"JetBrains Mono",monospace;font-size:12.5px;background:var(--bg-soft);border:1px solid var(--line);padding:1px 6px;border-radius:6px;color:var(--ink)}
+
+  /* Order */
+  .order{display:grid;gap:0}
+  .step{display:grid;grid-template-columns:38px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0;padding-bottom:2px}
+  .step:first-child{padding-top:2px}
+  .step-n{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--clay);color:var(--clay);display:grid;place-items:center;font-family:"Source Serif 4",Georgia,serif;font-weight:700;font-size:17px;background:var(--clay-soft)}
+  .step h3{font-size:16px;font-weight:650}
+  .step p{margin-top:4px;font-size:14.5px;color:var(--ink-2)}
+  .step .tags{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--bg-soft);border:1px solid var(--line);color:var(--ink-2)}
+  .tag.clay{background:var(--clay-soft);border-color:var(--clay-soft-2);color:var(--clay-dark)}
+  .timelines{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  .tl{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .tl .when{font-family:"Source Serif 4",Georgia,serif;font-size:24px;font-weight:600}
+  .tl h3{font-size:14px;font-weight:700;margin-bottom:4px}
+  .tl p{font-size:14px;color:var(--ink-2);margin-top:5px}
+  .note-line{margin-top:14px;font-size:13.5px;color:var(--muted)}
+
+  /* ---------- Filter bar ---------- */
+  .filterbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 0 12px;margin-top:40px;border-bottom:1px solid var(--line)}
+  .filterbar-inner{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .search{flex:1 1 240px;display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:9px 16px}
+  .search svg{color:var(--faint);flex:none}
+  .search input{border:0;outline:0;background:transparent;width:100%;font-size:15px}
+  .search input::placeholder{color:var(--faint)}
+  .chips{display:flex;gap:7px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink-2);transition:background .15s,color .15s,border-color .15s}
+  .chip:hover{border-color:var(--clay);color:var(--clay)}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+  .result-count{font-size:13px;color:var(--muted);width:100%}
+  .result-count b{color:var(--ink)}
+
+  /* ---------- Stage cards ---------- */
+  .stages{display:grid;gap:16px;margin-top:20px}
+  .stage{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .stage.supp{border-style:dashed;background:color-mix(in srgb,var(--surface) 70%,var(--bg-soft))}
+  .stage-top{padding:22px 24px 0;display:flex;gap:16px;align-items:flex-start}
+  .stage-num{flex:none;width:46px;height:46px;border-radius:13px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:"Source Serif 4",Georgia,serif;font-weight:700;font-size:17px;line-height:1;text-align:center}
+  .stage.supp .stage-num{background:var(--surface);color:var(--clay);border:1.5px solid var(--clay)}
+  .stage-head{flex:1;min-width:0}
+  .stage-head h3{font-family:"Source Serif 4",Georgia,serif;font-size:22px;font-weight:600;line-height:1.25}
+  .stage-marker{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--clay);margin-bottom:4px}
+  .stage.supp .stage-marker{color:var(--muted)}
+  .topics{padding:12px 24px 0;font-size:14px;color:var(--muted);line-height:1.6}
+  .topics b{color:var(--ink-2);font-weight:600}
+  .res{margin:18px 24px 0;background:var(--surface-2);border:1px solid var(--line);border-radius:13px;padding:17px 19px}
+  .res-label{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .res-name{margin-top:5px;font-size:17px;font-weight:650;line-height:1.4}
+  .res-name a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--clay-soft-2)}
+  .res-name a:hover{color:var(--clay);border-color:var(--clay)}
+  .res-meta{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .fmt{font-size:12px;font-weight:650;padding:3px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line-2);color:var(--ink-2)}
+  .domain{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);word-break:break-all}
+  .why{padding:14px 24px 0;font-size:15px;color:var(--ink-2)}
+  .why b{color:var(--ink);font-weight:650}
+  .catch{margin:14px 24px 0;display:flex;gap:10px;background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:11px;padding:12px 15px;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+  .catch svg{flex:none;color:var(--amber);margin-top:2px}
+  .catch b{color:var(--ink);font-weight:650}
+  .build{margin:16px 24px 22px;border-top:1px dashed var(--line-2);padding-top:15px}
+  .build-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sage)}
+  .build p{margin-top:7px;font-size:14.5px;color:var(--ink-2)}
+  .build p b{color:var(--ink)}
+  .extra-link{margin-top:10px;font-size:14px}
+
+  .empty{display:none;text-align:center;padding:44px 20px;background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--radius);color:var(--muted)}
+  .empty.show{display:block}
+  .empty .serif{font-size:21px;color:var(--ink);display:block;margin-bottom:6px}
+
+  /* ---------- Tables ---------- */
+  .table-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .cmp{display:grid;grid-template-columns:1.05fr 1fr 1fr 1fr}
+  .cmp>div{padding:15px 18px;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink-2);line-height:1.55}
+  .cmp>div:nth-child(4n+1){font-weight:650;color:var(--ink);background:var(--surface-2)}
+  .cmp .head{font-family:"Source Serif 4",Georgia,serif;font-size:16.5px;font-weight:600;color:var(--ink);background:var(--bg-soft);padding-top:17px;padding-bottom:17px}
+  .cmp .head.hl{color:var(--clay-dark);background:var(--clay-soft)}
+  .cmp>div:nth-child(4n+2){background:color-mix(in srgb,var(--clay-soft) 38%,transparent)}
+  .cmp>div:nth-last-child(-n+4){border-bottom:0}
+
+  /* Misses / flags */
+  .miss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .miss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .miss h3{font-size:15px;font-weight:650;display:flex;gap:9px}
+  .miss h3 .n{color:var(--clay);font-family:"Source Serif 4",Georgia,serif;font-weight:700}
+  .miss p{margin-top:6px;font-size:14px;color:var(--ink-2)}
+  .flags{display:grid;gap:10px}
+  .flag{display:flex;gap:11px;background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:12px;padding:14px 17px;font-size:14px;color:var(--ink-2)}
+  .flag svg{flex:none;color:var(--amber);margin-top:2px}
+  .flag b{color:var(--ink)}
+
+  /* Checklist */
+  .check-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 24px}
+  .check{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink-2);align-items:flex-start}
+  .check:last-child{border-bottom:0}
+  .box{flex:none;width:21px;height:21px;border:1.5px solid var(--line-2);border-radius:6px;margin-top:2px;background:var(--bg)}
+  .check b{color:var(--ink);font-weight:650}
+  .check .ck-tag{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+  .check.supp-row .ck-tag{color:var(--clay)}
+
+  footer{margin-top:56px;border-top:1px solid var(--line);padding:30px 0 60px}
+  footer h2{font-family:"Source Serif 4",Georgia,serif;font-size:21px;font-weight:600}
+  footer p{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:46em}
+  .sources{margin-top:16px;columns:2;column-gap:36px;font-size:13.5px}
+  .sources li{break-inside:avoid;padding:5px 0;color:var(--ink-2)}
+  .sources a{word-break:break-word}
+  .foot-note{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line-2);font-size:13px;color:var(--muted)}
+
+  @media (max-width:760px){
+    .stats{grid-template-columns:1fr 1fr}
+    .zero,.timelines,.miss-grid{grid-template-columns:1fr}
+    .zero>div+div{border-left:0;border-top:1px solid var(--line)}
+    .callout{grid-template-columns:1fr}
+    .cmp{grid-template-columns:1fr}
+    .cmp>div{border-bottom:0;padding:8px 18px}
+    .cmp>div:nth-child(4n+1){padding-top:16px;margin-top:6px;border-top:1px solid var(--line)}
+    .cmp>div:nth-child(4n+1).head{border-top:0;margin-top:0}
+    .cmp>div:nth-child(4n+4){padding-bottom:16px}
+    .cmp .head{display:none}
+    .cmp .head.hl{display:block}
+    .sources{columns:1}
+    .stage-top,.topics,.why{padding-left:18px;padding-right:18px}
+    .res,.catch{margin-left:18px;margin-right:18px}
+    .build{margin-left:18px;margin-right:18px}
+    .check .ck-tag{display:none}
+    .hero{padding-top:38px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="eyebrow"><span>Free resources guide</span><span class="dot"></span><span>Based on roadmap.sh/ai-engineer</span><span class="dot"></span><span>Roadmap read live · 28 Oct 2026</span></div>
+    <h1>The AI Engineer roadmap, with <em>one free resource</em> that actually earns its place at every stage</h1>
+    <p class="lede">roadmap.sh gives you the map. This guide gives you the <strong>single most useful free resource</strong> for each stage on it — official docs, university courses, free books and open repos only, never a free trial or a paywalled course dressed up as free — plus <strong>one hands-on project per stage</strong> that proves you learned it, designed to cost $0. Where a pick's free status could not be fully verified, the card says so instead of promising $0.</p>
+    <div class="hero-meta">
+      <span class="pill"><span class="sw"></span><b>20</b>&nbsp;stages covered</span>
+      <span class="pill"><b>1</b>&nbsp;primary free pick per stage</span>
+      <span class="pill"><b>20</b>&nbsp;practice projects</span>
+      <span class="pill">Core content free — <b>catches flagged</b></span>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></div>
+      <div>
+        <h2>The one thing to know before you start</h2>
+        <p>This roadmap is <strong>not a from-zero curriculum</strong>. It assumes you already work as a developer — its first box literally says pick <strong>one</strong> of Frontend, Backend or Full-Stack. Programming, maths, ML fundamentals, deep learning, fine-tuning and deployment are <strong>not stages on the page</strong>. So this guide covers every roadmap.sh stage in order, and adds <strong>five clearly labelled supplementary stages (S1–S5)</strong> for the foundations the roadmap skips but beginners and employers still expect.</p>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Guide at a glance">
+      <div class="stat"><div class="num">15</div><div class="lab">roadmap.sh stages, Stage 0–14, in the page's own order</div></div>
+      <div class="stat"><div class="num">+5</div><div class="lab">supplementary stages the roadmap omits — maths, ML, deep learning, fine-tuning, deployment</div></div>
+      <div class="stat"><div class="num">1</div><div class="lab">primary free pick per stage — a deliberate choice, not a link dump; a few stages add a companion, and one repo serves several stages</div></div>
+      <div class="stat"><div class="num">2–3</div><div class="lab">portfolio projects is the hiring bar — deployed, evaluated, written up</div></div>
+    </div>
+  </header>
+
+  <!-- ================= $0 RULE ================= -->
+  <section aria-labelledby="zero-h">
+    <div class="sec-head">
+      <h2 id="zero-h" class="serif">How every project here stays at $0</h2>
+      <p>Free learning is not the same as free inference. Reading docs and running open models locally costs nothing; calling hosted frontier APIs is billed per token. Every project below is built around that distinction.</p>
+    </div>
+    <div class="card zero">
+      <div>
+        <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Always free — the $0 stack</h3>
+        <ul>
+          <li>Local models via <code>Ollama</code> or small open models from Hugging Face</li>
+          <li>Local vector stores — Chroma runs in-process, no server, no account</li>
+          <li>Local embeddings with Sentence Transformers</li>
+          <li>Official docs, GitHub course repos and university courses</li>
+        </ul>
+      </div>
+      <div>
+        <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>Not free — flagged, never hidden</h3>
+        <p>Hosted API calls (OpenAI, Claude, Gemini, OpenRouter) are billed per token, and LLM-as-judge evaluation multiplies that cost. Where a popular resource is only partly free — DeepLearning.AI labs behind Pro, freemium observability tools, Ollama Cloud — the stage card says so in its <strong>free catch</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ORDER ================= -->
+  <section aria-labelledby="order-h">
+    <div class="sec-head">
+      <h2 id="order-h" class="serif">The learning order that actually works</h2>
+      <p>Roadmap order, with the supplementary stages inserted where they are real prerequisites — not where they happen to sit on the diagram.</p>
+    </div>
+    <div class="card order">
+      <div class="step"><div class="step-n">1</div><div><h3>Can't write and test Python yet? Start here</h3><p>Do Stage 0 (CS50P) with S1 maths intuition alongside it. Do not start at prompt engineering — the roadmap assumes this foundation.</p><div class="tags"><span class="tag clay">Stage 0</span><span class="tag">S1 · Maths</span></div></div></div>
+      <div class="step"><div class="step-n">2</div><div><h3>Can code, but no ML background?</h3><p>Take a light pass through S2 (ML fundamentals) and S3 (deep learning) before the spine. Without them, “embeddings”, “training” and “fine-tuning” are just words.</p><div class="tags"><span class="tag">S2 · ML fundamentals</span><span class="tag">S3 · Deep learning</span></div></div></div>
+      <div class="step"><div class="step-n">3</div><div><h3>The core spine, in order</h3><p>Stages 1 → 10 build on each other: you can't do RAG (8) without embeddings and vector search (7); you can't do agents (9) without tool calling (4) and context management (5); MCP (10) only makes sense after agents.</p><div class="tags"><span class="tag clay">Stages 1–10</span><span class="tag">Do not reorder</span></div></div></div>
+      <div class="step"><div class="step-n">4</div><div><h3>Weave safety and evaluation in from Stage 8</h3><p>Roadmap.sh lists safety (11) and evaluation (12) after MCP, but apply them to your RAG and agent projects as you build. A project without evals is a demo, not evidence.</p><div class="tags"><span class="tag clay">Stage 11 · Safety</span><span class="tag clay">Stage 12 · Evaluation</span><span class="tag">In parallel with 8–10</span></div></div></div>
+      <div class="step"><div class="step-n">5</div><div><h3>Fine-tuning after RAG — and deployment throughout</h3><p>Fine-tune (S4) only after RAG: it's the answer when behaviour must be baked in and data is stable, not the default for “the model doesn't know my documents”. Wrap every project as a FastAPI + Docker service (S5) from the start.</p><div class="tags"><span class="tag">S4 · Fine-tuning</span><span class="tag">S5 · Deployment</span></div></div></div>
+      <div class="step"><div class="step-n">6</div><div><h3>Finish with breadth — pick one, not all</h3><p>Stage 13 (multimodal, dev tools) and Stage 14 (next tracks: Forward Deployed, Prompt Engineering, Inference Engineering) come last. Pick one item from each; learning every listed tool is a trap.</p><div class="tags"><span class="tag clay">Stage 13</span><span class="tag clay">Stage 14 · Pick one track</span></div></div></div>
+    </div>
+    <div class="timelines">
+      <div class="tl"><h3>Already a developer · ~10 hrs/week</h3><div class="when">≈ 3–5 months</div><p>Stages 1–7 in ~4–6 weeks, Stages 8–10 plus evals in ~6–8 weeks, then ~4 weeks for one portfolio system: RAG + agent + evals + deployment.</p></div>
+      <div class="tl"><h3>From zero · part-time</h3><div class="when">≈ 6–9 months</div><p>Add Stage 0 and S1–S3 first (~2–3 months) before the spine. Anyone promising “AI engineer in 30 days from zero” is selling a course, not a plan.</p></div>
+    </div>
+    <p class="note-line">Timelines are planning suggestions from the research, not measured guarantees.</p>
+  </section>
+
+  <!-- ================= FILTER ================= -->
+  <div class="filterbar" role="region" aria-label="Filter stages">
+    <div class="filterbar-inner">
+      <label class="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="q" placeholder="Search stages, resources, topics… e.g. RAG, MCP, Ollama" aria-label="Search stages">
+      </label>
+      <div class="chips" role="group" aria-label="Stage group">
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">All 20 stages</button>
+        <button type="button" class="chip" data-filter="core" aria-pressed="false">Roadmap.sh core</button>
+        <button type="button" class="chip" data-filter="supp" aria-pressed="false">Supplementary</button>
+        <button type="button" class="chip" data-filter="flag" aria-pressed="false">Has a free-status flag</button>
+      </div>
+      <div class="result-count" id="count" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- ================= STAGES ================= -->
+  <section aria-labelledby="stages-h" style="padding-top:26px">
+    <div class="sec-head">
+      <h2 id="stages-h" class="serif">Stage by stage: the pick, the catch, the project</h2>
+      <p>Every card follows the same shape — the roadmap topic, the primary free resource worth your time (a couple of stages pair it with a companion the research names, and Microsoft's repo is deliberately reused across four stages), why it beat the alternatives, its honest free catch, and the project that counts as “done”.</p>
+    </div>
+
+    <div class="stages" id="stageList">
+
+      <!-- Stage 0 -->
+      <article class="stage" data-group="core" data-text="stage 0 prerequisites frontend backend full-stack python cs50 harvard cli api software foundations">
+        <div class="stage-top"><div class="stage-num">0</div><div class="stage-head"><div class="stage-marker">Pre-requisites · Pick one</div><h3>Pre-requisites — arrive as a developer</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Frontend, Backend, or Full-Stack — pick <b>one</b>. In practice this means Python plus software foundations; if you already ship web apps, skip to Stage 1.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener">CS50's Introduction to Programming with Python — Harvard</a></div><div class="res-meta"><span class="fmt">Course · video + problem sets</span><span class="domain">cs50.harvard.edu/python</span></div></div>
+        <p class="why"><b>Why this pick:</b> the most complete free Python course for a beginner — functions, exceptions, libraries, unit tests, file I/O, regex and OOP, all with graded-style exercises. It is exactly the Python surface the later stages assume.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> learning is free; the edX verified certificate is paid (optional). A free CS50 certificate via Harvard's own site is reported by third parties — verify on the course page before relying on it. No account needed to read or watch via Harvard's site.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 105.4 5.4L22 9.6V4h-5.6l-2.1 2.1a4 4 0 00-2.9-1.2 4 4 0 00-4 4c0 1.1.45 2.1 1.2 2.9L3 15.4V21h5.6l5.3-5.3c.8.75 1.8 1.2 2.9 1.2a4 4 0 004-4c0-1.1-.45-2.1-1.2-2.9l-2.3 2.3-2.6-.6-.6-2.6 2.6-2.4z" transform="scale(.9) translate(1 1)"/></svg>Build this — what “done” means</div><p>A Git repo with a <b>tested Python CLI</b> — argument parsing, file I/O, unit tests, README — plus a tiny API (see S5). It demonstrates you can write, test and version real Python, not just notebooks.</p></div>
+      </article>
+
+      <!-- Stage 1 -->
+      <article class="stage" data-group="core" data-text="stage 1 introduction what is ai engineer roles responsibilities ai vs ml engineer microsoft generative ai beginners">
+        <div class="stage-top"><div class="stage-num">1</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>Introduction — what an AI Engineer actually does</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> What is an AI Engineer? · Roles and Responsibilities · Impact on Product Development · AI Engineer vs ML Engineer.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">Microsoft — Generative AI for Beginners (21 lessons)</a></div><div class="res-meta"><span class="fmt">Course · open repo, Python &amp; TypeScript</span><span class="domain">github.com/microsoft/generative-ai-for-beginners</span></div></div>
+        <p class="why"><b>Why this pick:</b> one open repo covers the whole roadmap arc — LLMs, prompting, RAG, agents, fine-tuning, responsible AI — so this intro is not a dead end; it previews every later stage in order. No sign-up wall for the repo itself. You'll return to this same repo at Stages 7, 8 and 13.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> no certificate from the GitHub repo itself. Some lessons need a model backend (Azure OpenAI, OpenAI API, or local models) — choose the local-model path to stay at $0.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A one-page <b>“AI Engineer vs ML Engineer vs Data Scientist” explainer in your own words</b>, with 3 real product examples — e.g. a support assistant, document search, invoice extraction — and which roadmap stage each maps to. Demonstrates you can scope an AI feature, not just describe AI.</p></div>
+      </article>
+
+      <!-- Stage 2 -->
+      <article class="stage" data-group="core" data-text="stage 2 common terminology llm inference training tokens context pretrained models hugging face nlp course vocabulary">
+        <div class="stage-top"><div class="stage-num">2</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>Common Terminology — learn the words by using them</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> AI vs AGI · LLM · Inference · Training · Vector DBs · RAGs · Prompt Engineering · AI Agents · Pre-trained Models · Tokens · Context.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://huggingface.co/learn/nlp-course/en" target="_blank" rel="noopener">Hugging Face LLM Course</a></div><div class="res-meta"><span class="fmt">Course · interactive notebooks + text</span><span class="domain">huggingface.co/learn/nlp-course</span></div></div>
+        <p class="why"><b>Why this pick:</b> its own page states it is “completely free and without ads”, and it defines the vocabulary <i>by using it</i> — Transformers, Datasets, Tokenizers, the Hub, fine-tuning and sharing a model. That beats any glossary.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> requires good Python and is better after an introductory deep-learning course. No certificate is promised on the course page — a certification programme was reported as “in preparation”, so don't count on it. A free Hugging Face account is needed to save or share work on the Hub.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>Load a small pre-trained model from the Hub, <b>tokenize 5 sentences, and print token counts vs word counts</b>, with a short note on why context limits and token cost follow from that. Demonstrates: tokens ≠ words, and context is a budget.</p></div>
+      </article>
+
+      <!-- Stage 3 -->
+      <article class="stage" data-group="core" data-text="stage 3 how llms work tokens context window sampling temperature top-k top-p repetition penalties inference training 3blue1brown neural networks">
+        <div class="stage-top"><div class="stage-num">3</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>How LLMs Work — tokens, context, sampling</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Tokens · Context · Sampling Parameters (Temperature, Top-K, Top-P, Repetition Penalties) · Context Window · Fine-tuning and Context Engineering as side concepts · Inference Engineering.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw/featured" target="_blank" rel="noopener">3Blue1Brown — Neural Networks series + Essence of Linear Algebra</a></div><div class="res-meta"><span class="fmt">Video · YouTube</span><span class="domain">youtube.com/@3blue1brown</span></div></div>
+        <p class="why"><b>Why this pick:</b> the clearest free visual explanation of what a neural network computes and how gradients and backpropagation work — the intuition that makes “temperature / top-p” and “training vs inference” click, without needing a maths degree first.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> no exercises and no certificate — it builds intuition only, so pair it with the Stage 2 and Stage 6 coding work. No YouTube account is required to watch.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A notebook that runs the <b>same prompt at temperature 0, 0.7 and 1.5</b> on a local model and records how output randomness and repetition change, with a one-paragraph explanation per setting. Demonstrates sampling parameters are controls, not magic numbers.</p></div>
+      </article>
+
+      <!-- Stage 4 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 4 prompt engineering anatomy system prompt zero-shot few-shot react chain of thought function calling caching streaming anthropic tutorial">
+        <div class="stage-top"><div class="stage-num">4</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>Prompt Engineering</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Prompt Anatomy (Input Format, System Prompting, Role &amp; Behaviour, Context, Constraints, Structured Output) · Techniques (Zero-Shot, Few-Shot, ReAct, CoT) · Model Interaction (Function Calling, Prompt Caching, Streaming Responses).</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic — Prompt Engineering Interactive Tutorial</a></div><div class="res-meta"><span class="fmt">Interactive tutorial · notebooks + Google Sheets version</span><span class="domain">github.com/anthropics/prompt-eng-interactive-tutorial</span></div></div>
+        <p class="why"><b>Why this pick:</b> 9 chapters with exercises and a playground, from the model maker itself, covering exactly the roadmap's techniques — structure, role, separating data from instructions, chain-of-thought. Free, with no paid tier for the tutorial itself, per multiple 2026 listings.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> no certificate, and whether the interactive version currently needs a Claude API key (and therefore paid calls) <b>could not be confirmed from Anthropic's own page</b> in this research. Prefer the Sheets / no-API path or a local model for a guaranteed $0 run. Techniques transfer across models, but examples are Claude-flavoured.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>versioned prompt library</b> in Git for one task — each prompt with a system prompt, 0-shot vs few-shot variant, a structured-output schema, and before/after outputs on 5 fixed test inputs. Demonstrates you change one variable at a time and keep the evidence.</p></div>
+      </article>
+
+      <!-- Stage 5 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 5 context engineering context layer memory compaction long context state multi-agent isolation failure modes anthropic effective">
+        <div class="stage-top"><div class="stage-num">5</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>Context Engineering</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Context vs Prompt Engineering · Context Layer &amp; Sources · MCP · Context Security &amp; Evaluation · RAG &amp; Dynamic Filters · Memory Systems · Context Compaction · Long-Context Processing · State &amp; Historical Context · Multi-agent Context Sharing · Context Isolation · Context Failure Modes.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Anthropic — “Effective Context Engineering for AI Agents”</a></div><div class="res-meta"><span class="fmt">Article · engineering guide, ~20 min read</span><span class="domain">anthropic.com/engineering</span></div></div>
+        <p class="why"><b>Why this pick:</b> the source of the term's modern definition — the “smallest set of high-signal tokens” — covering the roadmap's exact techniques: system-prompt altitude, minimal non-overlapping tools, just-in-time retrieval, compaction, structured notes, sub-agents. No course to buy.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> article only, no exercises or certificate. The URL was quoted in a secondary summary of Anthropic's guide; if it moves, search Anthropic Engineering for the title.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>Take a 20-turn conversation that breaks a naive agent (context overflow, lost instructions) and fix it with two techniques: <b>(1) summarise-and-compact history, (2) move a large document behind a retrieval tool</b>. Show token counts before and after. Demonstrates context is a finite attention budget, not free space.</p></div>
+      </article>
+
+      <!-- Stage 6 -->
+      <article class="stage" data-group="core" data-text="stage 6 ai models closed open source self-hosted llama deepseek qwen gemma hugging face ollama lm studio openrouter apis sdks">
+        <div class="stage-top"><div class="stage-num">6</div><div class="stage-head"><div class="stage-marker">Core spine · Lists are alternatives</div><h3>AI Models — closed, open, self-hosted</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Types (Closed, Open Source, Self-Hosted) · Choosing the Right Model · Open models (Meta Llama, DeepSeek, Qwen, Gemma) · Platforms (Hugging Face Hub, Ollama, LM Studio, OpenRouter) · APIs &amp; SDKs (OpenAI Responses, Claude Messages, Gemini, HF Inference, OpenAI-compatible APIs). You are not meant to learn all of them.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://ollama.com" target="_blank" rel="noopener">Ollama — official site + docs</a></div><div class="res-meta"><span class="fmt">Tool · docs, CLI + local API</span><span class="domain">ollama.com</span></div></div>
+        <p class="why"><b>Why this pick:</b> the fastest free way to <i>do</i> the roadmap's “self-hosted” branch — one command pulls and runs an open model locally, and its API is OpenAI-compatible, so code written against it transfers to hosted APIs later. Open-source (MIT), free for local use with no usage limits, per multiple 2026 guides.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> local use is free; <b>Ollama Cloud is a separate paid offering</b> — you don't need it. Hardware is the limit: a 7–8B model at 4-bit needs roughly 5 GB plus RAM for context, and large models won't run well on a small laptop. Hosted API calls are billed separately.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>The <b>same script answering via (a) a local Ollama model and (b) an OpenAI-compatible endpoint</b>, with a short comparison: latency, cost ($0 local vs per-token hosted), quality on 5 questions, and when you'd pick each. Demonstrates model choice is a cost / quality / latency trade-off, not brand loyalty.</p></div>
+      </article>
+
+      <!-- Stage 7 -->
+      <article class="stage" data-group="core" data-text="stage 7 embeddings vector databases semantic search sentence transformers chroma pinecone weaviate faiss qdrant similarity indexing microsoft">
+        <div class="stage-top"><div class="stage-num">7</div><div class="stage-head"><div class="stage-marker">Core spine · Pick one database</div><h3>Embeddings &amp; Vector Databases</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> What Embeddings Are · Use Cases (Semantic Search, Classification, Recommendations, Anomaly Detection) · Embedding Models (OpenAI, Gemini, Cohere vs Sentence Transformers, HF models, Jina) · Vector DB purpose, Indexing, Similarity Search · <b>“Popular Vector DBs (pick one)”:</b> Chroma, Pinecone, Weaviate, FAISS, LanceDB, Qdrant, Supabase, MongoDB Atlas.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">Microsoft — Generative AI for Beginners, search &amp; embeddings lessons</a></div><div class="res-meta"><span class="fmt">Course · open repo lessons + code</span><span class="domain">github.com/microsoft/generative-ai-for-beginners</span></div></div>
+        <p class="why"><b>Why this pick:</b> it teaches embeddings <i>as a search system</i> — embed → store → retrieve — not as a formula, and its code runs with local models so the lesson stays free. For the database itself, use <b>Chroma</b>: open-source (Apache-2.0), <span style="font-family:'JetBrains Mono',monospace;font-size:13px">pip install chromadb</span>, runs in-process with no server — the roadmap's simplest pick-one choice.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> repo lessons that use hosted embedding APIs would cost — use a local Sentence Transformers model instead. Chroma's hosted Cloud features are paid / Cloud-only per a 2026 review; the local library is what this stage uses.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p><b>Semantic search over ~200 of your own documents</b> (notes, docs, code): embed with a local model, store in Chroma, query 10 questions, and report top-3 hits with distances plus <b>3 failure cases</b> (e.g. paraphrase vs keyword). Demonstrates similarity ≠ keyword match, and that metadata filtering matters.</p></div>
+      </article>
+
+      <!-- Stage 8 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 8 rag retrieval augmented generation chunking embedding retrieval vs fine-tuning langchain llamaindex haystack ragflow microsoft deeplearning">
+        <div class="stage-top"><div class="stage-num">8</div><div class="stage-head"><div class="stage-marker">Core spine · Frameworks are alternatives</div><h3>RAGs — retrieval-augmented generation</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> What RAG Is · Use Cases · RAG vs Fine-tuning · Implementing RAG (Chunking, Embedding, Vector Database, Retrieval, Generation) · Ways to implement (SDKs Directly, LangChain, LlamaIndex, Haystack, RAGFlow).</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">Microsoft — Generative AI for Beginners, RAG lessons</a> — built first with SDKs directly</div><div class="res-meta"><span class="fmt">Course · open repo lessons + code</span><span class="domain">github.com/microsoft/generative-ai-for-beginners</span></div></div>
+        <p class="why"><b>Why this pick:</b> the repo's RAG lessons follow the roadmap's pipeline exactly — chunk → embed → retrieve → generate — and the roadmap itself lists “Using SDKs Directly” first. Building RAG once without a framework is what lets you debug LangChain or LlamaIndex later instead of cargo-culting them.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> hosted-model lessons cost; run it locally (Ollama + Chroma + Sentence Transformers) for $0. <b>Not recommended as a main pick:</b> DeepLearning.AI short courses are widely listed as “free”, but 2026 reports say videos are free to watch while hands-on labs and certificates sit behind Pro (~$25/month) — flagged here, not hidden.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>document Q&amp;A app over a real corpus</b> (a manual, a course's PDFs) with a chunk-size experiment (e.g. 256 vs 1024 tokens), a 20-question test set with expected answers, and scores for retrieval hit-rate and answer faithfulness — <i>before</i> any framework. Then re-implement retrieval with LangChain or LlamaIndex and show what changed. Demonstrates chunking and retrieval quality, not the framework, decide RAG quality.</p></div>
+      </article>
+
+      <!-- Stage 9 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 9 ai agents react tools function calling multi-agents hugging face agents course smolagents langgraph llamaindex manual implementation">
+        <div class="stage-top"><div class="stage-num">9</div><div class="stage-head"><div class="stage-marker">Core spine · SDKs are alternatives</div><h3>AI Agents</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Agent Use Cases · ReAct Prompting · Tools &amp; Function Calling · Multi-agents · Building Agents (Manual Implementation, OpenAI AgentKit &amp; Agent SDK, Claude Agent SDK, Vertex AI Agent Builder, Google ADK).</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://huggingface.co/learn/agents-course/unit0/introduction" target="_blank" rel="noopener">Hugging Face — AI Agents Course</a></div><div class="res-meta"><span class="fmt">Course · 5 units + capstone</span><span class="domain">huggingface.co/learn/agents-course</span></div></div>
+        <p class="why"><b>Why this pick:</b> genuinely free, with free certificates — Fundamentals after Unit 1, Completion after a use-case assignment and a benchmarked final challenge, no deadline, per 2026 listings. It is framework-diverse (smolagents, LlamaIndex, LangGraph) and forces the roadmap's key discipline: build the same agent idea in more than one framework, ending in a benchmarked project instead of a watched video.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> cost is not zero by default. A 2026 review notes Hugging Face's Inference Providers docs list <b>no included monthly inference credits for free users</b> (PRO gets $2/month in compute credits). Plan assignments around local models or another provider where the exercise allows.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p><b>(1)</b> A manual ReAct loop in ~100 lines, no framework — reason → tool call → observe — with a step limit and an approval gate for side-effect tools. <b>(2)</b> The same task rebuilt in one framework (LangGraph or smolagents). The README must list tools, memory strategy, failure modes seen (bad tool call, loop) and the guardrail for each. Demonstrates you understand the loop — and know when <i>not</i> to use an agent.</p></div>
+      </article>
+
+      <!-- Stage 10 -->
+      <article class="stage" data-group="core" data-text="stage 10 model context protocol mcp host client server data layer transport python sdk building server client local remote">
+        <div class="stage-top"><div class="stage-num">10</div><div class="stage-head"><div class="stage-marker">Core spine</div><h3>Model Context Protocol (MCP)</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Core Components (MCP Host, Client, Server, Data Layer, Transport Layer) · Developing with MCP (Building a Server, Building a Client, Connect to Local Server, Connect to Remote Server).</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://py.sdk.modelcontextprotocol.io/" target="_blank" rel="noopener">MCP Python SDK — official documentation</a></div><div class="res-meta"><span class="fmt">Docs · open-source SDK (MIT)</span><span class="domain">py.sdk.modelcontextprotocol.io</span></div></div>
+        <p class="why"><b>Why this pick:</b> the official SDK docs are the shortest path from the roadmap's vocabulary — host / client / server, tools / resources / prompts, stdio vs Streamable HTTP — to a working server: a complete server takes ~15 lines, and <span style="font-family:'JetBrains Mono',monospace;font-size:13px">mcp dev</span> plus the Inspector let you test without writing a client.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> the SDK is free, but it is now <b>v2 (2026-07-28 spec) with breaking changes from v1</b> — pin or migrate deliberately, and don't copy v1 examples blindly. Security: only connect to servers you trust, use least-privilege credentials, and require approval for sensitive actions.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>An <b>MCP server exposing 2 tools + 1 resource</b> over stdio — e.g. search your Stage 7/8 corpus, read a file — inspected with the MCP Inspector, then consumed by <b>two different clients</b> (your Stage 9 agent + the Inspector). Demonstrates one server, many clients — the whole point of MCP — plus an approval step before any write/delete tool runs.</p></div>
+      </article>
+
+      <!-- Stage 11 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 11 ai safety ethics prompt injection security privacy bias fairness adversarial testing moderation owasp llm top 10">
+        <div class="stage-top"><div class="stage-num">11</div><div class="stage-head"><div class="stage-marker">Core spine · Apply from Stage 8</div><h3>AI Safety and Ethics</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Prompt Injection Attacks · Security and Privacy Concerns · Bias and Fairness · Adversarial Testing · Content Moderation APIs · End-user IDs in prompts · Robust Prompt Engineering · Know Your Customers / Use Cases · Constraining Outputs and Inputs.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://genai.owasp.org/" target="_blank" rel="noopener">OWASP GenAI Security Project — LLM Top 10</a></div><div class="res-meta"><span class="fmt">Guide · free reference</span><span class="domain">genai.owasp.org</span></div></div>
+        <p class="why"><b>Why this pick:</b> the industry reference the roadmap's topics map onto 1:1 — LLM01 Prompt Injection, sensitive-information disclosure, excessive agency, supply chain, data/model poisoning, unbounded consumption, misinformation, hidden-context exposure, vector/embedding weaknesses, improper output handling.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> the official OWASP URL was quoted in a secondary page and <b>was not opened live in this research</b> — verify the current edition on the site before citing a rank number. The 2026 edition reordered several items (Excessive Agency promoted to #3); do not copy 2025 numbers into 2026 work. Microsoft's GenAI security lessons are a free, fully-verified fallback.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>An <b>adversarial test pack</b> for your Stage 8/9 app: at least 10 attacks — direct injection, indirect injection hidden in a retrieved document, prompt-leak attempt, excessive-agency attempt, PII exfiltration attempt — each with expected vs actual behaviour, the fix (input/output constraints, per-user retrieval authorisation, human gate for writes), and a re-test. Demonstrates safety is tested, not asserted.</p></div>
+      </article>
+
+      <!-- Stage 12 -->
+      <article class="stage" data-group="core" data-flag="1" data-text="stage 12 evaluation observability tracing logging cost latency monitoring langsmith langfuse helicone arize deepeval ragas regression testing metrics">
+        <div class="stage-top"><div class="stage-num">12</div><div class="stage-head"><div class="stage-marker">Core spine · Tools are alternatives</div><h3>Evaluation &amp; Observability</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> LLM Observability (Tracing &amp; Logging, Cost/Latency Monitoring, Production Monitoring; tools: LangSmith, Langfuse, Helicone, Arize AI) · LLM Evaluations · Evaluation Types (Deterministic, Model-Based, Human Evals, Metrics) · Regression Testing · Evaluation Tools (DeepEval, RAGAS). <i>Roadmap.sh spells this node “Observabiity”.</i></p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://docs.ragas.io/" target="_blank" rel="noopener">RAGAS — official documentation</a></div><div class="res-meta"><span class="fmt">Docs · open-source library (Apache-2.0)</span><span class="domain">docs.ragas.io</span></div></div>
+        <p class="why"><b>Why this pick:</b> RAGAS is the roadmap-named tool that directly measures what Stage 8/9 projects need — faithfulness, context precision/recall, response relevancy — and supports synthetic test-data generation. It turns “it feels better” into a number you can regression-test, and it runs locally for free.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch — flagged:</b> the library is free, but LLM-based metrics still need a judge model — use a local model or budget for hosted judge calls. A 2026 comparison notes RAGAS moved to a new GitHub home (<span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">vibrantlabsai/ragas</span>) and was last updated February 2026 — check activity before building a long-term dependency on it. LangSmith / Langfuse / Helicone / Arize all have free tiers but are freemium: start with plain logging + RAGAS.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>An <b>eval suite for your RAG or agent</b>: a fixed question set (≥30, drawn from real failures, not just happy paths), deterministic checks (format, citations present, no refusal on valid questions) plus RAGAS-style metrics, run before and after one change, with a regression report — what improved, what regressed, and the cost/latency per query. This is the skill employers cite as the separator.</p></div>
+      </article>
+
+      <!-- Stage 13 -->
+      <article class="stage" data-group="core" data-text="stage 13 other ai applications multimodal image video audio text to speech whisper development tools claude code cursor codex vibe coding microsoft">
+        <div class="stage-top"><div class="stage-num">13</div><div class="stage-head"><div class="stage-marker">Core spine · Breadth — pick one of each</div><h3>Other AI Applications — multimodal &amp; dev tools</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Multimodal AI (Image Understanding/Generation, Video Understanding, Audio Processing, Text-to-Speech, Speech-to-Text; APIs incl. OpenAI Vision, DALL-E, NanoBanana, Whisper, HF models) · Development Tools / AI-Assisted Coding (Claude Code, Gemini, Codex, Cursor, OpenCode, Replit, Vibe Coding). Do not learn every tool.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">Microsoft — Generative AI for Beginners, image &amp; audio lessons</a> + Hugging Face Hub models</div><div class="res-meta"><span class="fmt">Course · open repo + open models</span><span class="domain">github.com/microsoft/generative-ai-for-beginners</span></div></div>
+        <p class="why"><b>Why this pick:</b> the repo's multimodal lessons let you try image generation and speech-to-text with the same local/open-model pattern as earlier stages, instead of buying five separate API subscriptions to learn five modalities. For dev tools, the free route is one assistant's free tier on a bounded task — the skill is review, not the tool.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> hosted vision/image/audio APIs are billed per call; Whisper and many HF multimodal models can run locally but need more compute and storage. Coding assistants' free tiers change frequently and may retain code depending on plan — check current terms, and never paste secrets or private code into a free-tier tool.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>multimodal mini-app with a local model</b> — upload an image → caption + extract text, or record audio → transcribe with a local Whisper-class model → summarise with your Stage 8 RAG. Plus a “vibe-coding” audit: one feature built with an AI coding tool, with a written review of every generated diff — what you accepted, rejected, and why.</p></div>
+      </article>
+
+      <!-- Stage 14 -->
+      <article class="stage" data-group="core" data-text="stage 14 continue learning next tracks forward deployed engineer prompt engineering inference engineering roadmap specialisation">
+        <div class="stage-top"><div class="stage-num">14</div><div class="stage-head"><div class="stage-marker">Next tracks · After the core</div><h3>Continue learning — pick a specialisation</h3></div></div>
+        <p class="topics"><b>On the roadmap:</b> Forward Deployed Engineer · Prompt Engineering · Inference Engineering — plus related roadmaps (Vibe Coding, Claude Code). These are specialisations, not prerequisites.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh's own linked roadmaps</a> — from the “Continue learning” boxes</div><div class="res-meta"><span class="fmt">Roadmap · guide</span><span class="domain">roadmap.sh/ai-engineer</span></div></div>
+        <p class="why"><b>Why this pick:</b> pick one track <i>after</i> Stages 8–12, based on the job you want — Forward Deployed = deploying with customers; Inference Engineering = serving, cost and latency at scale; Prompt Engineering = the dedicated prompting track.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> reading the roadmaps is free; their linked courses and tools may not be — apply the same free-status check to each before you commit time.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>Pick one track and <b>ship one artefact for it</b> — Forward Deployed: a customer-facing deployment with evals + runbook. Inference: a latency/cost benchmark of 2 serving options for your Stage 9 agent.</p></div>
+      </article>
+
+      <!-- S1 -->
+      <article class="stage supp" data-group="supp" data-text="supplementary s1 mathematics vectors matrices dot product cosine similarity probability derivatives gradient descent 3blue1brown linear algebra khan academy">
+        <div class="stage-top"><div class="stage-num">S1</div><div class="stage-head"><div class="stage-marker">Supplementary · Not on roadmap.sh</div><h3>Mathematics for AI — intuition level</h3></div></div>
+        <p class="topics"><b>Why it's here:</b> vectors, matrices, dot product / similarity, probability, derivatives, gradient descent — the maths underneath embeddings and sampling, at working-intuition depth, not degree depth. Run it in parallel with Stage 0.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://www.youtube.com/watch?v=fNk_zzaMoSs&amp;list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" rel="noopener">3Blue1Brown — Essence of Linear Algebra</a></div><div class="res-meta"><span class="fmt">Video · playlist</span><span class="domain">youtube.com · playlist PLZHQObOWTQDP…</span></div></div>
+        <p class="why"><b>Why this pick:</b> the dot-product episode alone explains why embeddings and cosine similarity work; the series is the standard free visual companion to ML maths, per multiple 2026 guides.</p>
+        <p class="extra-link">Add exercises with <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" rel="noopener">Khan Academy — Statistics &amp; Probability</a> (free).</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> video-only — no exercises or certificate. Khan Academy adds the exercises, also free.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>Implement <b>cosine similarity, a tiny gradient-descent fit, and a Bayes update in NumPy from scratch</b>, each with a plot. Demonstrates you can read an embedding, a loss curve and a probability claim.</p></div>
+      </article>
+
+      <!-- S2 -->
+      <article class="stage supp" data-group="supp" data-text="supplementary s2 machine learning fundamentals supervised unsupervised validation overfitting underfitting metrics kaggle learn intro">
+        <div class="stage-top"><div class="stage-num">S2</div><div class="stage-head"><div class="stage-marker">Supplementary · Not on roadmap.sh</div><h3>Machine Learning fundamentals</h3></div></div>
+        <p class="topics"><b>Why it's here:</b> supervised / unsupervised learning, validation, over- and underfitting, metrics — the evaluation discipline that transfers directly to Stage 12. Do this before the spine if you have no ML background.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" rel="noopener">Kaggle Learn — Intro to Machine Learning</a></div><div class="res-meta"><span class="fmt">Interactive course · in-browser notebooks, ~3 hrs, 7 lessons</span><span class="domain">kaggle.com/learn/intro-to-machine-learning</span></div></div>
+        <p class="why"><b>Why this pick:</b> Kaggle lists it as “No cost, like all Kaggle Learn Courses” — how models work, exploration, your first model, validation, under/overfitting, random forests and competitions, with in-browser exercises and a free completion certificate. The fastest honest ML baseline before LLMs.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> a Kaggle account is required to save work and get the certificate. It is an introduction, not professional ML competence on its own, per independent reviews.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>tabular model</b> (e.g. house-price or churn) with a train/validation split, a metric table (accuracy / precision / recall / F1 as appropriate), and a note on one overfitting fix you tried.</p></div>
+      </article>
+
+      <!-- S3 -->
+      <article class="stage supp" data-group="supp" data-text="supplementary s3 deep learning transformers neural networks attention training fast.ai practical deep learning coders transfer learning">
+        <div class="stage-top"><div class="stage-num">S3</div><div class="stage-head"><div class="stage-marker">Supplementary · Not on roadmap.sh</div><h3>Deep Learning &amp; Transformers</h3></div></div>
+        <p class="topics"><b>Why it's here:</b> neural nets, CNNs/RNNs, attention, training — the bridge from S2 to understanding Stages 2–3 for real. A light pass is enough for AI engineering.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://course.fast.ai" target="_blank" rel="noopener">fast.ai — Practical Deep Learning for Coders</a></div><div class="res-meta"><span class="fmt">Course · video + notebooks</span><span class="domain">course.fast.ai</span></div></div>
+        <p class="why"><b>Why this pick:</b> a free MOOC from a non-profit, code-first, requiring only Python. It teaches transfer learning and modern architectures with Hugging Face, scikit-learn and Gradio — exactly the bridge this stage needs to be.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> no certificate for the online course (only in-person students get one). Some lessons need a GPU — Kaggle Notebooks' free GPU is the usual $0 route; check current Kaggle quotas.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>fine-tuned image classifier</b> (transfer learning) and a tiny text classifier, each with a training/validation curve and a deployed Gradio demo. Demonstrates training is a pipeline, not a single <span style="font-family:'JetBrains Mono',monospace;font-size:13px">fit()</span> call.</p></div>
+      </article>
+
+      <!-- S4 -->
+      <article class="stage supp" data-group="supp" data-text="supplementary s4 fine-tuning sft lora qlora peft trl hugging face when not to fine-tune after rag">
+        <div class="stage-top"><div class="stage-num">S4</div><div class="stage-head"><div class="stage-marker">Supplementary · The roadmap's missing stage</div><h3>Fine-tuning — SFT, LoRA / QLoRA, and when not to</h3></div></div>
+        <p class="topics"><b>Why it's here:</b> roadmap.sh has no fine-tuning stage — only a side concept and a “RAG vs Fine-tuning” node. Learn the order first: <b>prompting → RAG → fine-tuning</b>, and do this stage after Stage 8.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://huggingface.co/docs/peft/tutorial/peft_model_config" target="_blank" rel="noopener">Hugging Face — PEFT tutorial</a> + <a href="https://huggingface.co/docs/trl/peft_integration" target="_blank" rel="noopener">TRL PEFT integration docs</a></div><div class="res-meta"><span class="fmt">Docs · official tutorials</span><span class="domain">huggingface.co/docs/peft · /docs/trl</span></div></div>
+        <p class="why"><b>Why this pick:</b> official docs for the standard free stack (Transformers + PEFT + TRL): LoRA configs, trainable-parameter counts, QLoRA with bitsandbytes, and SFT examples on small models (e.g. Qwen 0.5B) that can actually run on limited hardware.</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> the libraries are free; compute is the cost — use a ≤1B model and/or a free Kaggle/Colab GPU, and expect time limits. Some gated models (e.g. Llama) need a Hub account plus licence acceptance.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>A <b>LoRA fine-tune of a small open model</b> on ~200–500 of your own instruction examples, evaluated against the base model on a held-out set with your Stage 12 suite — plus a written decision: did fine-tuning beat RAG/prompting here, and why? Demonstrates you fine-tune for a measured reason, not by default.</p></div>
+      </article>
+
+      <!-- S5 -->
+      <article class="stage supp" data-group="supp" data-text="supplementary s5 deployment mlops fastapi docker ci cd monitoring cost apis serving">
+        <div class="stage-top"><div class="stage-num">S5</div><div class="stage-head"><div class="stage-marker">Supplementary · The roadmap's other missing stage</div><h3>Deployment &amp; MLOps — APIs, Docker, monitoring, cost</h3></div></div>
+        <p class="topics"><b>Why it's here:</b> no FastAPI, Docker, CI/CD, serving or cost section exists on roadmap.sh — yet employers list exactly those. Build this in parallel with Stages 8–12, reusing one service skeleton.</p>
+        <div class="res"><div class="res-label">Best free resource</div><div class="res-name"><a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI — official tutorial</a></div><div class="res-meta"><span class="fmt">Docs · tutorial</span><span class="domain">fastapi.tiangolo.com</span></div></div>
+        <p class="why"><b>Why this pick:</b> the framework most AI-engineer job posts name — FastAPI + Python backends, vector-DB integrations, cloud deployment — and its official tutorial is repeatedly recommended as free and complete, from first endpoint to validation, testing and deployment.</p>
+        <p class="extra-link">Pair it with <a href="https://docs.docker.com/guides/lab-container-getting-started/" target="_blank" rel="noopener">Docker's official getting-started lab</a> (free).</p>
+        <div class="catch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg><p><b>Free catch:</b> both are free to learn. Docker Desktop is free for personal, education and small-business use, paid for larger enterprises. Cloud hosting beyond free tiers is billed.</p></div>
+        <div class="build"><div class="build-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Build this — what “done” means</div><p>Your Stage 8 RAG or Stage 9 agent as a <b>containerised FastAPI service</b> — Dockerfile, health endpoint, request logging with token/latency/cost per call, a <span style="font-family:'JetBrains Mono',monospace;font-size:13px">/eval</span> smoke test — with a README giving latency and cost per 100 queries. A model that only runs in a notebook is not a product; yours runs as a service, with numbers.</p></div>
+      </article>
+
+    </div>
+    <div class="empty" id="emptyState"><span class="serif">No stage matches that search</span>Try a broader word — “agents”, “vector”, “free”, or a resource name like “Ollama” — or clear the filters above.</div>
+  </section>
+
+  <!-- ================= EMPLOYERS ================= -->
+  <section aria-labelledby="jobs-h">
+    <div class="sec-head">
+      <h2 id="jobs-h" class="serif">What employers actually expect — and how this role differs</h2>
+      <p>Synthesised from 2026 AI-engineer job descriptions and guides. The core stack they agree on: Python, FastAPI, RAG, agents, vector DBs, evals, Docker/cloud. Framework choice (LangChain vs LlamaIndex vs provider SDKs) should follow the target job's stack, not any guide's default.</p>
+    </div>
+    <div class="table-card cmp" role="table" aria-label="AI Engineer versus ML Engineer versus ML Researcher">
+      <div class="head">Expectation</div><div class="head hl">AI Engineer — this roadmap</div><div class="head">ML Engineer</div><div class="head">ML Researcher</div>
+
+      <div>Centre of work</div><div>Build applications <b>on top of</b> existing models: prompts/context, retrieval, tool calling, evals, running the feature reliably in production</div><div>Train, tune and deploy models: data pipelines, feature engineering, training jobs, model monitoring</div><div>Novel methods, papers, benchmarks; maths and proofs, new architectures</div>
+
+      <div>Evidence that gets you hired</div><div>Shipped RAG system, shipped agent with evals + guardrails, FastAPI service, cost/latency numbers, failure analysis</div><div>Training + serving pipeline, experiment tracking, data quality, retraining, drift monitoring</div><div>Publications / novel results, deep theory, large-scale training experience</div>
+
+      <div>LLM stack</div><div>LLM APIs/SDKs, RAG (chunking, embeddings, retrieval quality, reranking), agent orchestration, vector DBs, MCP, prompt/context engineering</div><div>The same, plus PyTorch, distributed training, optimisation, model serving (vLLM etc.)</div><div>Transformer theory, pretraining, alignment (RLHF), scaling</div>
+
+      <div>Software depth</div><div>Strong Python, APIs/JSON, Git, Docker, cloud basics, SQL + a vector DB, logging/tracing</div><div>Strong Python, data engineering, CI/CD for models, orchestration (Kubernetes), cloud ML services</div><div>Python + research code; engineering depth varies</div>
+
+      <div>Evals &amp; safety</div><div><b>The differentiator:</b> deterministic + model-based + human evals, regression testing, prompt-injection and excessive-agency controls, cost/latency monitoring</div><div>Model metrics, data validation, production monitoring (drift, performance)</div><div>Benchmark design, ablations, statistical rigour</div>
+
+      <div>Maths depth</div><div>Working intuition — vectors, similarity, probability, sampling, metrics — enough to debug embeddings, sampling and evals</div><div>Stronger: optimisation, statistics, experiment design</div><div>Deepest: proofs, theory, new methods</div>
+
+      <div>Degree?</div><div>roadmap.sh's FAQ: helpful, not strictly necessary. Portfolio proof — deployed, measured projects — is what is screened first</div><div>More often expects a CS/statistics background, though portfolio + experience still substitute in many postings</div><div>Usually a PhD or equivalent research record</div>
+    </div>
+    <p class="note-line"><b style="color:var(--ink)">Portfolio bar:</b> 2–3 projects maximum, each deployed, evaluated and written up (problem, architecture, eval results, cost/latency, failures + fixes) — one RAG system, one agent, one fine-tuning or multimodal experiment. Ten tutorial clones with no evals are weaker than one measured system.</p>
+  </section>
+
+  <!-- ================= MISSES ================= -->
+  <section aria-labelledby="miss-h">
+    <div class="sec-head">
+      <h2 id="miss-h" class="serif">What roadmap.sh misses, glosses over, or has aged</h2>
+      <p>The roadmap page's header calls itself a guide “to becoming an AI Engineer in 2026” (published 2025-05-14, updated 2026-10-16). Read it with these gaps in mind.</p>
+    </div>
+    <div class="miss-grid">
+      <div class="miss"><h3><span class="n">1</span>It teaches no foundations</h3><p>No Python, maths, ML, deep-learning, NLP or deployment spine. A beginner following only this page hits Stage 7 without the prerequisites to understand it — hence S1–S5.</p></div>
+      <div class="miss"><h3><span class="n">2</span>No fine-tuning stage</h3><p>Fine-tuning is a side concept and a comparison node. In 2026 practice, LoRA/QLoRA + SFT/DPO with PEFT/TRL is a standard, cheap skill — and <i>when</i> to fine-tune vs RAG vs prompt is an interview topic in itself (S4).</p></div>
+      <div class="miss"><h3><span class="n">3</span>No deployment / MLOps</h3><p>No FastAPI, Docker, CI/CD, model serving, cost management or cloud deployment — despite employers listing exactly those (S5 + Stage 12 monitoring).</p></div>
+      <div class="miss"><h3><span class="n">4</span>No data engineering</h3><p>Chunking is covered; ingestion, cleaning, deduplication, PII handling, dataset versioning and evaluation-data curation are not — yet they decide RAG quality more than the framework choice.</p></div>
+      <div class="miss"><h3><span class="n">5</span>Observability tools are freemium</h3><p>LangSmith, Langfuse, Helicone and Arize AI all have free tiers with paid retention and features. The roadmap doesn't say that — start with local logging + RAGAS and add a hosted tracer deliberately.</p></div>
+      <div class="miss"><h3><span class="n">6</span>Model &amp; API names age fast</h3><p>The page still names “OpenAI (GPT, o-series)”, the DALL-E API and NanoBanana API, and agent SDKs since renamed or reorganised. Learn the pattern — API + SDK + local alternative — and check the provider's current docs before building.</p></div>
+      <div class="miss"><h3><span class="n">7</span>MCP has moved on</h3><p>Introduced by Anthropic in November 2024; secondary sources in this research report it was donated to the Linux Foundation's Agentic AI Foundation in December 2025, and the Python SDK is now v2 on the 2026-07-28 spec. Don't learn MCP from v1 examples alone — and not every tool needs an MCP server; a direct function call is simpler for a single-purpose script.</p></div>
+      <div class="miss"><h3><span class="n">8</span>Safety numbering has moved</h3><p>OWASP's LLM Top 10 was reordered in its 2026 edition — Excessive Agency up to #3, System Prompt Leakage broadened to Hidden Context Exposure. Don't reuse 2025 rank numbers.</p></div>
+      <div class="miss"><h3><span class="n">9</span>“Vibe coding” without review discipline</h3><p>AI coding tools are listed as a stage; the employable skill is reviewing generated code, testing it and owning the diff — which is why Stage 13's project includes a written diff audit.</p></div>
+      <div class="miss"><h3><span class="n">10</span>Context engineering is now first-class</h3><p>Anthropic's 2025 framing — compaction, sub-agents, just-in-time retrieval, context rot — postdates the original roadmap and is now central to agent work, hence its own Stage 5 here.</p></div>
+      <div class="miss"><h3><span class="n">11</span>Running costs are invisible</h3><p>Nothing on the page warns that hosted models bill per token, that LLM-judge evals multiply cost, or that free tiers change (e.g. Hugging Face free-user inference credits). Budget every project in tokens + dollars, not just accuracy.</p></div>
+      <div class="miss"><h3><span class="n">12</span>Sponsored content sits on the page</h3><p>The Scrimba “20% off” box on roadmap.sh is advertising, not a stage — and Scrimba's path is paid, so it is excluded from this free guide. The page also shows no published colour legend, so no claim is made here about what node colours mean beyond the text markers quoted.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= FLAGS ================= -->
+  <section aria-labelledby="flag-h">
+    <div class="sec-head">
+      <h2 id="flag-h" class="serif">Free-status flags — what could not be fully verified</h2>
+      <p>Roadmap structure was verified live on 2026-10-28. Resource free status is from each resource's own listing or search-index description unless flagged below. These are stated plainly rather than smoothed over.</p>
+    </div>
+    <div class="flags">
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>Anthropic Prompt Tutorial (Stage 4):</b> described as free with no paid tier in multiple 2026 listings, but whether its live playground currently needs a Claude API key could not be confirmed from Anthropic's own page. Use the Sheets/offline path or a local model for a guaranteed $0 run.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>OWASP GenAI (Stage 11):</b> the URL was quoted in a secondary page; the live OWASP page was not opened in this research, and the 2026 reordering is reported by secondary guides. Verify the current edition on genai.owasp.org before citing a rank.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>Anthropic Context Engineering article (Stage 5):</b> URL as quoted in a secondary summary of Anthropic's guide. If it 404s, search Anthropic Engineering for the title.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>DeepLearning.AI short courses:</b> repeatedly marketed as “free”, but 2026 reports indicate videos are free to watch while labs and certificates require Pro (~$25/month billed annually). <b>Not used as a main pick</b> for that reason — it appears only as a Stage 8 warning.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>Hugging Face inference credits (Stage 9):</b> a 2026 review states free users get no included monthly inference credits (PRO: $2/month). Don't plan course assignments around an old free-credit allowance.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>RAGAS (Stage 12):</b> open-source (Apache-2.0), but a 2026 comparison notes a new GitHub home and a February 2026 last update — check activity before adopting it long-term. LLM-judge costs are separate.</p></div>
+      <div class="flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><p><b>CS50 certificate (Stage 0):</b> learning is free and edX's verified certificate is paid; the free Harvard certificate path is reported by third parties, not confirmed on Harvard's own page in this research. Also open: exact current pricing and free-tier limits for hosted APIs, observability tools, Pinecone, coding assistants and Kaggle/Colab GPU quotas change frequently and were not re-verified on each provider's pricing page — check at time of use.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= CHECKLIST ================= -->
+  <section aria-labelledby="check-h">
+    <div class="sec-head">
+      <h2 id="check-h" class="serif">Master checklist — in roadmap order</h2>
+      <p>Print this page and tick them off by hand, or copy the list into your own notes. Each line names the artefact that proves the stage is done.</p>
+    </div>
+    <div class="check-card">
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 0 — Prerequisite (one):</b> Frontend / Backend / Full-Stack · Python + Git + APIs — CS50P done, CLI project shipped</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>S1 — Maths intuition:</b> NumPy cosine similarity, gradient-descent fit and Bayes update, each plotted</p><span class="ck-tag">Supplementary</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>S2 — ML fundamentals:</b> validated tabular model with a metric table and one overfitting fix</p><span class="ck-tag">Supplementary</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>S3 — Deep learning:</b> transfer-learned classifier + tiny text classifier, curves and Gradio demo</p><span class="ck-tag">Supplementary</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 1 — Introduction:</b> role, responsibilities, AI vs ML Engineer — explainer written</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 2 — Terminology:</b> LLM, tokens, context, inference, training, RAG, agents — token-count demo done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 3 — How LLMs Work:</b> sampling parameters, context window, inference vs training — temperature experiment done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 4 — Prompt Engineering:</b> anatomy, zero/few-shot, ReAct, CoT, structured output, function calling, streaming — prompt library + test set done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 5 — Context Engineering:</b> context layer, compaction, memory, isolation, failure modes — before/after compaction shown</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 6 — AI Models:</b> closed / open / self-hosted, model choice — Ollama vs hosted comparison done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 7 — Embeddings &amp; Vector DBs:</b> one DB picked (Chroma, local) — 200-doc semantic search + failure cases done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 8 — RAGs:</b> chunking, retrieval, generation, RAG vs fine-tuning — 20-question scored RAG done, SDK-first then one framework</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>S4 — Fine-tuning:</b> LoRA experiment + a written “did it beat RAG/prompting?” decision</p><span class="ck-tag">Supplementary</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 9 — AI Agents:</b> manual ReAct loop + one framework, step limit + approval gates — agent + failure log done</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 10 — MCP:</b> server (tools + resource) consumed by two clients, approval required for writes</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 11 — Safety &amp; Ethics:</b> 10-attack adversarial pack + fixes + re-test</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 12 — Evaluation &amp; Observability:</b> fixed eval suite, regression report, cost/latency per query</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>S5 — Deployment / MLOps:</b> containerised FastAPI service with a cost/latency README</p><span class="ck-tag">Supplementary</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 13 — Other AI Applications:</b> one modality + one coding tool, generated diffs reviewed in writing</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Stage 14 — Next track (one):</b> Forward Deployed / Prompt Engineering / Inference Engineering — track artefact shipped</p><span class="ck-tag">Roadmap</span></div>
+      <div class="check"><span class="box" aria-hidden="true"></span><p><b>Portfolio:</b> 2–3 deployed, evaluated, written-up systems — not 10 tutorial clones — with a GitHub README per project</p><span class="ck-tag">Goal</span></div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER / SOURCES ================= -->
+  <footer>
+    <h2 class="serif">Sources</h2>
+    <p>Roadmap structure verified live on roadmap.sh on 28 Oct 2026 (diagram read top to bottom; page metadata: published 2025-05-14, updated 2026-10-16). Resource links below are the official pages carried in the research — no URL here was invented or reconstructed.</p>
+    <ul class="sources">
+      <li>Roadmap — <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a></li>
+      <li>Stage 0 — <a href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener">cs50.harvard.edu/python</a></li>
+      <li>Stages 1, 7, 8, 13 — <a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">github.com/microsoft/generative-ai-for-beginners</a></li>
+      <li>Companion — <a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank" rel="noopener">github.com/microsoft/ai-agents-for-beginners</a></li>
+      <li>Stage 2 — <a href="https://huggingface.co/learn/nlp-course/en" target="_blank" rel="noopener">huggingface.co/learn/nlp-course</a></li>
+      <li>Stage 9 — <a href="https://huggingface.co/learn/agents-course/unit0/introduction" target="_blank" rel="noopener">huggingface.co/learn/agents-course</a></li>
+      <li>Stages 3, S1 — <a href="https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw/featured" target="_blank" rel="noopener">3Blue1Brown on YouTube</a> · <a href="https://www.youtube.com/watch?v=fNk_zzaMoSs&amp;list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" rel="noopener">Essence of Linear Algebra playlist</a></li>
+      <li>S1 exercises — <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" rel="noopener">khanacademy.org/math/statistics-probability</a></li>
+      <li>Stage 4 — <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">github.com/anthropics/prompt-eng-interactive-tutorial</a></li>
+      <li>Stage 5 — <a href="https://anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">anthropic.com/engineering/effective-context-engineering-for-ai-agents</a></li>
+      <li>Stage 6 — <a href="https://ollama.com" target="_blank" rel="noopener">ollama.com</a></li>
+      <li>Stage 10 — <a href="https://py.sdk.modelcontextprotocol.io/" target="_blank" rel="noopener">py.sdk.modelcontextprotocol.io</a></li>
+      <li>Stage 12 — <a href="https://docs.ragas.io/" target="_blank" rel="noopener">docs.ragas.io</a></li>
+      <li>Stage 11 — <a href="https://genai.owasp.org/" target="_blank" rel="noopener">genai.owasp.org</a> (secondary-quoted; see flag above)</li>
+      <li>S4 — <a href="https://huggingface.co/docs/peft/tutorial/peft_model_config" target="_blank" rel="noopener">huggingface.co/docs/peft</a> · <a href="https://huggingface.co/docs/trl/peft_integration" target="_blank" rel="noopener">huggingface.co/docs/trl/peft_integration</a></li>
+      <li>S2 — <a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" rel="noopener">kaggle.com/learn/intro-to-machine-learning</a></li>
+      <li>S3 — <a href="https://course.fast.ai" target="_blank" rel="noopener">course.fast.ai</a></li>
+      <li>S5 — <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">fastapi.tiangolo.com</a> · <a href="https://docs.docker.com/guides/lab-container-getting-started/" target="_blank" rel="noopener">docs.docker.com getting-started lab</a></li>
+      <li>Employer expectations — <a href="https://resources.rework.com/libraries/job-description-templates/ai-engineer" target="_blank" rel="noopener">Rework 2026 AI Engineer job-description guide</a> and other 2026 guides and live postings reviewed in the research</li>
+    </ul>
+    <p class="foot-note">Confidence note from the research: there is no single authoritative “employer expects X” dataset — the jobs section synthesises multiple 2026 guides and postings, which agree on the core stack but differ on seniority and specific frameworks. Timelines are planning suggestions, not measured outcomes. Free-tier limits and pricing for hosted services change frequently — check each provider at time of use.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var q = document.getElementById('q');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var stages = Array.prototype.slice.call(document.querySelectorAll('.stage'));
+  var count = document.getElementById('count');
+  var empty = document.getElementById('emptyState');
+  var active = 'all';
+
+  function apply(){
+    var term = (q.value || '').trim().toLowerCase();
+    var shown = 0;
+    stages.forEach(function(s){
+      var groupOk = active === 'all' ||
+        (active === 'core' && s.getAttribute('data-group') === 'core') ||
+        (active === 'supp' && s.getAttribute('data-group') === 'supp') ||
+        (active === 'flag' && s.getAttribute('data-flag') === '1');
+      var text = (s.textContent + ' ' + (s.getAttribute('data-text') || '')).toLowerCase();
+      var textOk = !term || text.indexOf(term) !== -1;
+      var ok = groupOk && textOk;
+      s.style.display = ok ? '' : 'none';
+      if (ok) shown++;
+    });
+    empty.classList.toggle('show', shown === 0);
+    count.innerHTML = 'Showing <b>' + shown + '</b> of ' + stages.length + ' stages' +
+      (active !== 'all' || term ? ' — <a href="#" id="clearF">clear filters</a>' : '');
+    var clear = document.getElementById('clearF');
+    if (clear) clear.addEventListener('click', function(e){
+      e.preventDefault();
+      q.value = ''; setActive('all'); apply();
+    });
+  }
+  function setActive(f){
+    active = f;
+    chips.forEach(function(c){ c.setAttribute('aria-pressed', c.getAttribute('data-filter') === f ? 'true' : 'false'); });
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){ setActive(c.getAttribute('data-filter')); apply(); });
+  });
+  q.addEventListener('input', apply);
+  apply();
+})();
+</script>
+</body>
+</html>
