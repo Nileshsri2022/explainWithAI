@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>Documents to Build an App with AI — Beginning to End</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF9F5; --surface:#FFFFFF; --surface2:#F3F0E9; --surface3:#EFECE3;
+  --ink:#1D1B18; --ink2:#3D3A35; --muted:#73706A; --faint:#9A968E;
+  --line:#E6E1D3; --line-soft:#EDE9DD;
+  --accent:#C15F3C; --accent-hover:#A84E2F; --accent-soft:#F9ECE4; --accent-ink:#9A4527;
+  --amber:#8A5F13; --amberBg:#F7ECD2;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(29,27,24,.04),0 4px 16px rgba(29,27,24,.04);
+  --shadow-sm:0 1px 2px rgba(29,27,24,.05);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1F1E1B; --surface:#2A2824; --surface2:#26241F; --surface3:#33302A;
+    --ink:#F2EFE7; --ink2:#D8D3C6; --muted:#A8A299; --faint:#7E7A72;
+    --line:#3A372F; --line-soft:#33302A;
+    --accent:#E08A6A; --accent-hover:#E99B7D; --accent-soft:#3D2C24; --accent-ink:#E8A88E;
+    --amber:#D9B36A; --amberBg:#3A311E;
+    --shadow:0 1px 2px rgba(0,0,0,.25),0 4px 16px rgba(0,0,0,.18);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.25);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent-soft);color:var(--accent-ink)}
+a{color:var(--accent);text-decoration-color:color-mix(in srgb,var(--accent) 35%,transparent);text-underline-offset:3px}
+a:hover{color:var(--accent-hover)}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px 80px}
+
+/* ——— Hero ——— */
+.hero{padding:56px 0 8px;max-width:780px}
+.pill{display:inline-flex;gap:8px;align-items:center;background:transparent;border:1px solid var(--line);color:var(--muted);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.hero h1{font-family:"Newsreader",Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(40px,6vw,62px);line-height:1.04;letter-spacing:-.015em;margin:22px 0 20px;color:var(--ink)}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.lede{font-size:17.5px;line-height:1.7;color:var(--muted);max-width:720px;margin:0}
+.lede strong{color:var(--ink2);font-weight:600}
+
+/* ——— Stats: quiet divided strip, not boxes ——— */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin:32px 0 28px;overflow:hidden}
+.stat{padding:20px 22px}
+.stat+.stat{border-left:1px solid var(--line-soft)}
+.stat b{font-family:"Newsreader",Georgia,serif;font-size:34px;font-weight:500;display:block;line-height:1;letter-spacing:-.01em;color:var(--ink)}
+.stat span{font-size:12.5px;line-height:1.45;color:var(--muted);display:block;margin-top:7px}
+
+/* ——— Golden rule callout ——— */
+.rule{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));border-radius:var(--radius);padding:26px 28px;margin:0 0 26px}
+.rule h2{font-family:"Newsreader",Georgia,serif;margin:0 0 8px;font-size:23px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.rule p{margin:0;color:var(--ink2);font-size:15px;line-height:1.7;max-width:820px}
+
+/* ——— Controls ——— */
+.controls{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:14px 0;margin:8px -4px 0;border-bottom:1px solid var(--line-soft);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.controls label{font-weight:600;font-size:13.5px;color:var(--ink2)}
+.seg{display:flex;background:var(--surface3);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s ease}
+.seg button:hover{color:var(--ink)}
+.seg button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(29,27,24,.12)}
+input[type=search],select{padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14px;box-shadow:var(--shadow-sm)}
+input[type=search]{min-width:220px;flex:1 1 220px}
+input[type=search]:focus,select:focus{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:1px;border-color:var(--accent)}
+#count{color:var(--muted)!important;font-weight:500!important}
+
+/* ——— Sections ——— */
+h2.sec{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:32px;line-height:1.15;letter-spacing:-.015em;margin:52px 0 8px;color:var(--ink)}
+.sub{color:var(--muted);font-size:15px;margin:0 0 20px;max-width:700px}
+
+/* ——— Cards & grids ——— */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm)}
+.card h3{font-family:"Newsreader",Georgia,serif;font-size:18px;font-weight:600;line-height:1.3;margin:0 0 7px;color:var(--ink)}
+.card p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
+.badge{font-size:10.5px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.e{background:#E7F0E1;color:#38602C}
+.r{background:var(--amberBg);color:var(--amber)}
+.o{background:var(--surface3);color:var(--muted)}
+@media(prefers-color-scheme:dark){.e{background:#2E3D26;color:#A9C795}}
+
+/* ——— Timeline / phases ——— */
+.timeline{display:grid;gap:12px}
+.phase{display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm)}
+.phase strong{color:var(--ink);font-weight:600}
+.num{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line));color:var(--accent-ink);display:grid;place-items:center;font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:16px;margin-top:1px}
+.phase ul{margin:10px 0 0;padding:0;list-style:none;color:var(--muted);font-size:14px;line-height:1.6;display:grid;gap:5px}
+.phase ul li{padding-left:20px;position:relative}
+.phase ul li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--accent) 55%,var(--line))}
+
+/* ——— Master table ——— */
+.tablewrap{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.5}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .12s ease}
+tbody tr:hover{background:color-mix(in srgb,var(--surface2) 65%,transparent)}
+td strong{color:var(--ink);font-weight:600}
+th{background:var(--surface2);color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+
+/* ——— AI vs human split ——— */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.split .card{padding:24px 26px}
+.split ul{padding-left:19px;color:var(--muted);font-size:14.5px;line-height:1.65;margin:10px 0 0;display:grid;gap:6px}
+.split ul li::marker{color:var(--accent)}
+
+/* ——— Accordions ——— */
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:17px 20px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+details[open]{padding-bottom:19px}
+summary{font-weight:600;font-size:15px;cursor:pointer;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:"Newsreader",Georgia,serif;font-size:22px;font-weight:400;color:var(--accent);line-height:1;flex:none}
+details[open] summary::after{content:"−"}
+details p,details li{color:var(--muted);font-size:14.5px;line-height:1.7}
+details p{margin:12px 0 0}
+
+/* ——— Footer / cautions ——— */
+.foot{font-size:13px;line-height:1.7;color:var(--muted);border-top:1px solid var(--line);margin-top:48px;padding-top:22px}
+.foot strong{color:var(--ink2)}
+
+/* ——— Responsive ——— */
+@media(max-width:800px){
+  .wrap{padding:0 18px 64px}
+  .hero{padding:36px 0 4px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat+.stat{border-left:0}
+  .stat:nth-child(even){border-left:1px solid var(--line-soft)}
+  .stat:nth-child(n+3){border-top:1px solid var(--line-soft)}
+  .grid,.split{grid-template-columns:1fr}
+  .phase{padding:18px}
+  .rule{padding:22px}
+  h2.sec{font-size:28px;margin-top:42px}
+  thead{display:none}tr{display:block;padding:10px 0}td{display:block;border:0;padding:4px 16px}td:first-child{font-weight:700}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="hero">
+<span class="pill">● Research · 28 October 2026 · Beginning → Launch → After</span>
+<h1>Every document you need<br>to build an app <em>with AI.</em></h1>
+<p class="lede">There is no single canonical list. The research summary estimates an AI-built app touches <strong>~45–55 documents in practice</strong> — its enumerated master list breaks some of those into sub-documents, for <strong>77 rows</strong> in total below. A solo developer can ship safely with about <strong>15 core ones</strong>, a small startup needs <strong>25–30</strong>, and a larger or regulated team needs the full set. This page is the full map — what each document is, what must be inside it, who owns it, and when you need it.</p>
+<div class="stats">
+<div class="stat"><b>77</b><span>rows in the enumerated master table (§§1–10)</span></div>
+<div class="stat"><b>10</b><span>stages, from discovery to retirement</span></div>
+<div class="stat"><b>9</b><span>phases in the chronological checklist</span></div>
+<div class="stat"><b>15</b><span>core documents for a solo ship</span></div>
+</div>
+<div class="rule"><h2>The golden rule: AI drafts, humans decide.</h2><p>AI is excellent at first drafts, boilerplate, test scaffolding and formatting. It is unreliable at inventing requirements you never stated, choosing trade-offs with legal or safety consequences, inventing libraries/APIs, and judging whether its own output is correct. Every AI-generated document or code change needs a named human owner, a review gate, and — for code — automated tests/scans before merge.</p></div>
+<p style="font-size:13px;color:var(--muted)"><strong>How to read this page:</strong> <span class="badge e">E = Essential</span> <span class="badge r">R = Recommended</span> <span class="badge o">O = Optional</span> &nbsp; Owner: <strong>H</strong> = human owns, <strong>AI</strong> = AI can draft, <strong>H+AI</strong> = AI drafts, human reviews and signs. Legal, security, safety, privacy, pricing and release decisions always need human approval — even when AI drafted the text. <em>* in the table = essential if the app uses AI / RAG.</em></p>
+</header>
+
+<div class="controls">
+<label for="team">I am building as:</label>
+<div class="seg" role="group" aria-label="Team size"><button data-team="solo" class="active">Solo</button><button data-team="startup">Startup</button><button data-team="larger">Larger / Regulated</button></div>
+<input type="search" id="q" placeholder="Search documents… e.g. PRD, prompt, privacy" aria-label="Search documents">
+<select id="cat"><option value="">All 10 stages</option></select>
+<select id="pri"><option value="">Any priority for my team</option><option value="E">Essential only</option><option value="R">Recommended only</option><option value="O">Optional only</option></select>
+<span id="count" style="font-weight:700;font-size:13px"></span>
+</div>
+
+<h2 class="sec">The journey in 9 phases</h2><p class="sub">The chronological checklist from the research (§12). Do these in order — later phases assume the earlier documents exist.</p>
+<div class="timeline" id="timeline"></div>
+
+<h2 class="sec">Master table — all documents</h2><p class="sub">Filtered by the team size you picked above. Full detail for each stage is in the expandable sections below the table.</p>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Document</th><th>Purpose in one line</th><th>Owner</th><th>Timing</th><th>Priority for you</th></tr></thead><tbody id="tbody"></tbody></table></div>
+<p id="empty" style="display:none;color:var(--muted)">No documents match that search. Try clearing the search or priority filter.</p>
+
+<h2 class="sec">What AI can draft vs. what a human must own</h2>
+<div class="split">
+<div class="card"><h3>✓ AI can draft — human reviews</h3><ul><li>PRD first draft, user stories, test cases</li><li>API boilerplate / OpenAPI skeletons</li><li>Wireframe variations, UI copy</li><li>README, changelog, help docs</li><li>Code and unit tests</li><li>Risk-register candidates</li><li>Competitor matrix draft</li></ul></div>
+<div class="card"><h3>⚑ Human must write, approve or own</h3><ul><li>Problem statement, MVP scope + Won’t-have list, pricing / monetization</li><li>Architecture decisions (ADRs), model + prompt choices, evaluation thresholds</li><li>Guardrail / refusal policy, security requirements + threat model, auth design</li><li>Privacy policy, terms, consent flows, compliance classification</li><li>UAT sign-off, release go / no-go, incident &amp; breach decisions</li><li>Any high-stakes AI output policy — health, legal, finance, safety</li></ul></div>
+</div>
+
+<h2 class="sec">Stage-by-stage: what must be inside each document</h2><p class="sub">Tap a stage to expand. These summaries carry the research’s must-contain lists, hedges and warnings.</p>
+<div id="details"></div>
+
+<h2 class="sec">11 mistakes when building with AI without documents</h2>
+<div class="grid" id="mistakes"></div>
+
+<h2 class="sec">Templates &amp; standards to start from</h2><p class="sub">Starting points from the research (§14) — not legal advice. Privacy policies, terms, DPAs and high-risk AI assessments should be reviewed by a qualified lawyer in the relevant jurisdiction.</p>
+<div class="card"><ul style="padding-left:18px;line-height:2">
+<li><a href="https://www.smartsheet.com/content/free-product-requirements-document-template" target="_blank" rel="noopener">Smartsheet PRD templates</a> — PRD starting point <em>(verified live 2026-10-28 in the research)</em></li>
+<li><a href="https://support.google.com/googleplay/android-developer/answer/14094294?hl=en-GB" target="_blank" rel="noopener">Google Play AI-generated content policy (official)</a> — prevent restricted content, in-app reporting/flagging <em>(verified live)</em></li>
+<li><a href="https://capgo.app/blog/how-to-prepare-app-store-and-google-play-listing/" target="_blank" rel="noopener">Store listing preparation — sizes &amp; limits</a> <em>(verified live)</em></li>
+<li><a href="https://www.swaggereditor.org/guide/document-api-authentication.html" target="_blank" rel="noopener">Swagger Editor — OpenAPI auth guide</a></li>
+<li><a href="https://devguide.owasp.org/en/11-security-gap-analysis/01-guides/02-asvs/" target="_blank" rel="noopener">OWASP ASVS</a> — security requirements baseline</li>
+<li>Apple App Store Review Guidelines — the research notes the primary source is developer.apple.com/app-store/review/guidelines and it was <strong>not directly opened</strong> in this research; verify the live version before submission.</li>
+</ul></div>
+
+<div class="foot">
+<p><strong>Cautions carried from the research — read before you quote numbers:</strong> Vendor statistics (discovery ROI, scope-creep reduction, a secondary claim that ~45% of AI-generated code samples contained an OWASP Top 10 flaw, slopsquatting rates) come from vendor/agency pages and were <strong>not independently verified</strong> — directionally useful, not facts to quote to stakeholders. Store fees ($99/yr Apple, $25 one-off Google Play) and icon/screenshot sizes are Oct 2026 secondary-source figures — confirm in App Store Connect / Play Console. EU AI Act high-risk/transparency dates in 2026–2028 are reported as shifting — verify the official timeline at build time. DPDP figures (penalties up to ₹250 crore, Rules dates) should be verified against the official Gazette / MeitY notifications. WCAG sources cite both 2.1 AA and 2.2 AA — state one explicitly in your accessibility document.</p>
+<p><strong>Could not verify:</strong> the live text of Apple’s current App Review Guidelines and Google’s Data Safety form field-by-field; primary Veracode 2025 figures; primary DPDP Rules text/dates; primary EU AI Act consolidated timeline as of Oct 2026. No project-specific parameters were supplied (app type, geography, regulated domain, team size, budget) — so the E/R/O ratings here are generic. A health, finance or children’s app moves many “Recommended” items to “Essential” and adds sector rules not detailed here.</p>
+<p>Research date: 28 October 2026. Status flags in the source research: most sources were found via search index, not re-opened; the three marked “verified live” above were opened and read.</p>
+</div>
+</div>
+<script>
+var DOCS=[
+["1.1","Problem statement","Why this exists","H","Week 0","E","E","E",1],["1.2","Market / user research","Evidence it is worth building","H","Wk 0–2","R","E","E",1],["1.3","Competitor analysis","Differentiation + pricing","H+AI","Wk 0–2","R","E","E",1],["1.4","Business model & monetization","How it pays, incl. AI cost","H","Wk 0–2","R","E","E",1],["1.5","Personas","Who it is for","H+AI","Wk 0–2","R","E","E",1],["1.6","Value proposition","Positioning sentence","H","Week 1","E","E","E",1],["1.7","Success metrics / KPIs","How success is measured","H+AI","Week 1","E","E","E",1],["1.8","Decision log / assumptions register","Assumed vs. validated","H","Throughout","O","R","E",1],
+["2.1","PRD","What + why, single truth","H owns","Pre-design","E","E","E",2],["2.2","MVP scope + Won’t list","What v1 is / isn’t","H","With PRD","E","E","E",2],["2.3","User stories & backlog","Buildable units","H+AI","Ongoing","E","E","E",2],["2.4","Use cases","Detailed flows (complex)","H+AI","With PRD","O","R","E",2],["2.5","User flows / journey maps","Paths + error states","H+AI","Pre-wireframe","R","E","E",2],["2.6","Acceptance criteria + DoD","Definition of done","H","Per story","E","E","E",2],["2.7","Functional & non-functional reqs","Testable requirements","H+AI","With PRD","E","E","E",2],["2.8","MoSCoW prioritization","Scope control","H","With PRD","E","E","E",2],
+["3.1","SRS (IEEE-style)","Formal system spec","H+AI","Pre-dev","O","R","E",3],["3.2","Architecture + ADRs (C4)","How it fits together","H","Pre-dev","R","E","E",3],["3.3","Tech stack record","Justified choices","H","Pre-dev","R","E","E",3],["3.4","DB schema / data model","Data structure + PII","H+AI","Pre-dev","E","E","E",3],["3.5","API spec (OpenAPI / GraphQL)","Endpoint contract","H+AI","Pre-dev","R","E","E",3],["3.6","Integrations register","Vendors + data shared","H","Pre-dev","R","E","E",3],["3.7","AI model selection *","Model per task","H","Pre-dev","E","E","E",3],["3.8","Prompt spec + system prompts *","Versioned prompts","H owns","Per AI feature","E","E","E",3],["3.9","RAG / data-source spec *","Knowledge + retrieval","H+AI","Pre-dev","E","E","E",3],["3.10","AI evaluation criteria *","Golden set + thresholds","H owns","Pre-AI-launch","E","E","E",3],["3.11","Guardrails / safety / fallback *","Controls + refusal paths","H owns","Pre-dev","E","E","E",3],["3.12","AI cost / latency limits *","Budgets + kill-switch","H","Pre-dev","E","E","E",3],["3.13","Hallucination / bias plan *","Harm detection","H owns","Pre-dev","R","E","E",3],
+["4.1","UX research report","Tested findings","H","Pre-design","O","R","E",4],["4.2","Information architecture / sitemap","Structure","H+AI","Pre-wireframe","R","E","E",4],["4.3","Wireframes","Layout + flow","Designer","Pre-UI","R","E","E",4],["4.4","Interactive prototype","Testable mockup","Designer","Pre-dev","O","R","E",4],["4.5","High-fidelity UI","Final screens + states","Designer","Per sprint","R","E","E",4],["4.6","Design system / style guide","Tokens + components","Designer+dev","From first UI","O","R","E",4],["4.7","Accessibility reqs (WCAG AA)","Inclusive by design","H","With design","R","E","E",4],["4.8","Design handoff pack","Buildable specs","Designer","Per sprint","R","E","E",4],
+["5.1","Project plan & roadmap","Phases + milestones","H","Pre-dev","R","E","E",5],["5.2","Milestones & sprint plan","Sprint goals + capacity","H+AI","Per sprint","R","E","E",5],["5.3","Team roles / RACI","Who decides","H","Pre-dev","O","R","E",5],["5.4","Risk register","Risks + mitigations","H+AI","Living","R","E","E",5],["5.5","Estimation & budget","Cost breakdown","H","Pre-dev","R","E","E",5],["5.6","AI-assisted dev workflow (AI policy)","Safe AI-coding rules","H owns","Before AI code","E","E","E",5],
+["6.1","Coding standards","Conventions incl. secure code","H+AI","Pre-dev","R","E","E",6],["6.2","Repo & branching strategy","Trunk vs GitFlow","H","Pre-dev","R","E","E",6],["6.3","Environment setup guide","<1-day onboarding","H+AI","Sprint 1","E","E","E",6],["6.4","Config & secrets handling","Env + secret lifecycle","H owns","Pre-dev","E","E","E",6],["6.5","Code documentation","READMEs + ADRs","H+AI","Continuous","R","E","E",6],
+["7.1","Data flow diagram + inventory","Where data goes","H","Pre-dev","R","E","E",7],["7.2","Privacy policy","Store + legal disclosure","H+lawyer","Pre-submission","E","E","E",7],["7.3","Terms of Service","User contract","H+lawyer","Pre-launch","E","E","E",7],["7.4","Consent & data-rights procedures","DPDP / GDPR in product","H+lawyer","Pre-launch","E","E","E",7],["7.5","Compliance mapping","GDPR / DPDP / other laws","H+lawyer","Pre-launch","R","E","E",7],["7.6","Security reqs + threat model","STRIDE / ASVS","H owns","Pre-dev","R","E","E",7],["7.7","Auth & authorization design","Identity + RBAC / BOLA","H","Pre-dev","E","E","E",7],["7.8","AI governance / EU AI Act","Classification + transparency","H+lawyer","Pre-launch","R","E","E",7],["7.9","Backup & recovery plan","Restore + RPO / RTO","H","Pre-launch","R","E","E",7],["7.10","DPAs & vendor contracts","Processor legals","H+lawyer","Pre-launch","O","R","E",7],
+["8.1","Test plan","Scope + exit criteria","H+AI","Per release","R","E","E",8],["8.2","Test cases + traceability","Checks linked to stories","H+AI","Per sprint","R","E","E",8],["8.3","QA checklist","Release gate","H","Per release","R","E","E",8],["8.4","AI evaluation plan (live) *","Regression + sampling","H owns","Continuous","E","E","E",8],["8.5","Performance / load plan","Load + latency proof","H+AI","Pre-launch","O","R","E",8],["8.6","Security testing report","SAST / SCA / DAST / pentest","H","Pre-launch","R","E","E",8],["8.7","UAT plan & sign-off","Business acceptance","H signs","Pre-launch","R","E","E",8],["8.8","Beta test plan","TestFlight / Play tracks","H","Pre-launch","R","E","E",8],
+["9.1","Release plan + go / no-go","Rollout + rollback","H","Per release","E","E","E",9],["9.2","App store listing pack","Metadata + assets + disclosures","H+AI","During dev","E","E","E",9],["9.3","Deployment & DevOps runbook","Deploy + rollback steps","H+AI","Pre-launch","R","E","E",9],["9.4","Monitoring & analytics plan","Alerts + AI metrics","H","Pre-launch","E","E","E",9],["9.5","Incident response plan","Breakage + breach playbook","H","Pre-launch","R","E","E",9],
+["10.1","User manual / help docs","User success","H+AI","At launch","R","E","E",10],["10.2","Changelog / release notes","What changed","H+AI","Every release","E","E","E",10],["10.3","Support plan","Channels + SLAs","H","At launch","R","E","E",10],["10.4","Feedback & iteration loop","Evidence → backlog","H","Continuous","R","E","E",10],["10.5","Scaling & maintenance plan","Growth + model upgrades","H","Quarterly","O","R","E",10],["10.6","Retirement / data-deletion plan","End of life","H","At sunset","O","R","E",10]
+];
+var CATS={1:"1 · Discovery & idea",2:"2 · Product definition",3:"3 · Technical + AI planning",4:"4 · Design",5:"5 · Project planning & process",6:"6 · Development",7:"7 · Data, security & legal",8:"8 · Testing & quality",9:"9 · Launch & deployment",10:"10 · Post-launch & maintenance"};
+var PHASES=[
+["Phase 0 — Discovery","Before spending on design/dev",["Problem statement written + evidence attached","5–10 user interviews / survey done; findings summarised","Market size + trends noted with source + date","Competitor matrix (5–10 apps) + SWOT + differentiation","Personas (2–3) + value proposition sentence","Business model + monetization + AI unit cost modelled","KPIs + north-star metric defined","Go / refine / stop decision recorded"]],
+["Phase 1 — Product definition","The contract AI tools build against",["PRD v1 (problem, goals, non-goals, personas, features, F/NFRs, metrics, risks, open questions)","MVP scope + Won’t-have list frozen","User stories with acceptance criteria + MoSCoW priorities","User flows for every core task incl. error / empty / AI-failure paths"]],
+["Phase 2 — Technical + AI planning","Where AI-built apps most often fail — the AI spec is missing",["SRS (larger teams) or PRD + tech spec (solo/startup) approved","Architecture (C4 L1–L2 minimum) + ADRs for stack / DB / AI choices","Data model + API spec (OpenAPI) + integrations register","Model selection + prompt spec + RAG spec + evaluation criteria + guardrails + cost/latency/fallback limits","Threat model (DFD + STRIDE) + auth design + data inventory"]],
+["Phase 3 — Design","Before code",["IA + wireframes for all key screens reviewed","Prototype tested with ≥5 users; findings fixed","High-fidelity UI + design system tokens/components + accessibility (WCAG AA) annotations","Handoff pack per sprint (states, redlines, error cases)"]],
+["Phase 4 — Planning & setup","Make AI help safe, not dangerous",["Roadmap, milestones, sprint plan, RACI, risk register, budget with contingency","AI-assisted workflow document in repo (CLAUDE.md / .cursorrules + review gates)","Repo, branching, environments, secrets handling, coding standards in place"]],
+["Phase 5 — Build","Per story, per sprint",["Code + tests per story, PR review (human) + CI gates (tests, SAST, SCA, secret scan) on every merge","Docs updated with code (ADRs, API spec, README); prompts versioned; golden-set regression on every AI change","Privacy / terms / consent flows built — not bolted on at submission"]],
+["Phase 6 — Test","Prove it, including the hostile paths",["Test plan + cases executed; traceability story → test → result","AI evaluation: golden set, injection/jailbreak, bias/toxicity, role-isolation, latency/cost checks","Performance/load + security testing; findings fixed / retested","UAT on staging with business sign-off (Go / Conditional / Fail)"]],
+["Phase 7 — Launch","Submission is a document problem too",["Beta (TestFlight / Play testing) + crash triage","Store listing pack complete (metadata, icons, screenshots, privacy labels / Data Safety, age rating, demo account, support URL)","Release plan + runbook + monitoring/alerts + incident response ready; rollback rehearsed","Privacy policy + terms live, linked in listing and in-app; account deletion in-app (+ web link for Google)"]],
+["Phase 8 — Post-launch","Launch is not the end",["Help docs + changelog published with v1","Support plan + SLAs live; feedback loop cadence set","Monitoring reviewed weekly (incl. AI quality/cost); golden set re-run on every model/prompt change","Quarterly: scaling, dependency, compliance and risk-register review"]]
+];
+var DETAILS=[
+["1 · Discovery and idea — before any code","Output is a go / refine / stop decision, not just enthusiasm. Must-contain highlights: Problem statement = problem, evidence, affected user, why now, cost if unsolved. Market research = TAM/SAM/SOM with source + date. Competitor analysis = feature matrix, pricing, SWOT per competitor, differentiation — human verifies claims because AI invents competitor features. Business model must include AI inference cost per user/action and store commission (15–30% as noted in the research). Success metrics must include AI metrics: answer usefulness, cost/query, latency, hallucination rate. Warning: AI can synthesise a plausible market report in minutes and hallucinate sizes, prices and features — every number needs a source and date."],
+["2 · Product definition — the PRD is the prompt","PRD (per Smartsheet, verified live): purpose/objectives, features, personas, high-level requirements, timelines, constraints/dependencies, success criteria. Length guidance: 2–3 pages for an MVP feature, 3–8 for an early app idea, 10–30 for a mature product — not 150. MVP scope needs an explicit Won’t-have list, because AI tools expand scope silently. User stories: “As a [specific user], I want [action] so that [outcome]” + testable acceptance criteria. MoSCoW change control: adding a Must mid-build requires removing something or extending budget/time. Naming caution: PRD vs SRS vs PSD boundaries differ by team — coverage matters more than the label; don’t produce three overlapping documents that contradict each other."],
+["3 · Technical + AI planning — the section that decides if the AI works","Architecture: C4 model (L1 Context, L2 Containers, L3 Components, L4 Code) + ADRs in Status / Context / Decision / Consequences format. API spec: OpenAPI 3.x with per-endpoint auth, roles/scopes, examples, error codes (400/401/403/404/500), rate limits, idempotency. Data model must plan AI data for month 2: chunks, embeddings, tenants, permissions, model-call and retrieval logs, feedback. Model selection: RAG buys knowledge/freshness; fine-tuning buys behaviour/format/style — never fine-tune to add fast-changing facts. Prompt spec: version-controlled prompt files with output schema, pinned model version, change log. Evaluation: golden dataset (sources suggest 100–200 curated records for a serious set, 10 as an absolute minimum starter), Recall@K / MRR / faithfulness thresholds + CI gates — set your own thresholds, don’t copy an example 0.90 blindly. Guardrails: require citations in code, similarity threshold → “I don’t know” refusal, retrieved content treated as data never instructions, in-app report/flag (required by Google Play for generative-AI apps). Cost/latency: per-query and monthly caps, model routing, caching, kill-switch per AI feature."],
+["4 · Design — states, not just screens","Wireframes for every key screen incl. error/empty states — “never approve a quote before seeing wireframes.” High-fidelity UI must cover default/hover/focus/active/disabled/error/loading/empty states. Design system: tokens as JSON/code + components with usage rules — “components without usage rules are organised assets, not a system.” Accessibility: target WCAG 2.1 AA minimum (some teams target 2.2 AA — pick one and state it); 4.5:1 contrast for normal text, 3:1 for large text/UI; visible focus; keyboard order; touch targets; text scaling to 200%; reduced motion. Verification needs automated scan plus manual + assistive-tech testing, and WCAG alignment ≠ legal compliance in every jurisdiction. Handoff gate: complete only when accessibility + states + error cases are in the pack."],
+["5 · Project planning & process — including the AI policy (§5.6)","Project plan: scope in/out, milestones with exit criteria, critical path, budget by phase, change control. Estimation: optimistic/realistic/pessimistic ranges; sources suggest 20–30% schedule buffer for uncertain work and 10–20% budget contingency. The AI-assisted development workflow (§5.6) is required however small the team: allowed tools/models; what AI may not touch (no prod credentials, no prod write/delete without approval, no new dependencies without permission); repo guardrails file (CLAUDE.md / .cursorrules: validate inputs, parameterised queries, auth middleware on every route, env-only secrets); small PRs; mandatory human review; AI-review as a second check with a different model, not a replacement; automated gates (SAST, SCA, secret scanning, tests) blocking merge; provenance labels on AI-generated commits; no direct commits to main."],
+["6 · Development — conventions AI must follow","AI tools default to whatever is most common, not your convention — so coding standards, secure-coding rules (mapped to OWASP ASVS where relevant) and logging rules (no PII in logs) must be written down. Branching: trunk-based (best for small/medium, continuous delivery) vs GitFlow (versioned, larger, scheduled releases) — pick deliberately; required reviews 0 solo / 1 small team / 2+ larger. Secrets: .env + secret manager per environment, never commit .env / *.pem / *.key / API keys, .gitignore + secret scanning + rotation if leaked, no secrets in client code or AI prompts/logs. Setup guide goal: a new human (or AI agent) running in under 1 day. Documentation rule: if AI wrote it and no human can explain it, it isn’t documented."],
+["7 · Data, security & legal — human-owned, lawyer for regulated apps","Privacy policy is required by both stores for every app, linked in the listing and in-app, reachable without login — and must match App Privacy labels + Data Safety form + actual behaviour (including SDKs), or you risk rejection/removal. Keep Terms separate from the privacy policy. Consent: India DPDP requires a standalone, itemised consent notice with withdrawal as easy as giving; GDPR requires a lawful basis, rights handling, and 72-hour breach notification. DPDP applies regardless of size per a secondary source; penalties up to ₹250 crore are cited — verify officially. Threat model: DFD + STRIDE + LINDDUN, baseline OWASP ASVS L1 minimum, L2 recommended for most apps handling sensitive data, L3 for critical/high-assurance. Auth design must cover object-level authorization (BOLA — a recurring AI-code failure), Sign in with Apple if third-party login is on iOS (Guideline 4.8), and in-app account deletion (Apple 5.1.1(v); Google also requires a web deletion link). AI governance: NIST AI RMF and ISO/IEC 42001:2023 are the usual frameworks; EU AI Act deployers mainly owe Art. 50 transparency unless the use case is high-risk — verify the shifting timeline at build time."],
+["8 · Testing & quality — UAT sign-off is a human signature","Test plan maps to ISO/IEC/IEEE 29119-3 (which replaced withdrawn IEEE 829); test data must be synthetic — never real customer data in staging. AI-generated tests need human review: AI tests often mirror the code’s own wrong assumptions. AI evaluation runs continuously: golden-set regression in CI, live sampling, user feedback tied to retrieved chunk IDs, drift monitoring, injection/jailbreak and bias/toxicity cases. UAT: scenarios in business language, test accounts per role (two roles must not see each other’s data), payment in test mode, AI checks for normal, empty and hostile prompt-injection inputs. Exit example: 100% critical cases passed, no open critical/high defects. Decision is Go / Conditional Pass (written outstanding items + dates) / Fail, with a named signatory + date — AI never signs. A failed UAT check moves the date; it is not skipped."],
+["9 · Launch & deployment — the store pack blocks submission if incomplete","Apple listing limits from the research: name 30 chars, subtitle 30, description 4,000, keywords 100 bytes, promo text 170, icon 1024×1024 PNG no transparency, screenshots 1–10 per size. Google Play: title 30, short description 80, full description 4,000, icon 512×512 ≤1MB, feature graphic 1024×500, screenshots 2–8 per device type. Both need privacy policy URL, privacy disclosure, age rating, review login credentials; plus AI-specific in-app report/flag (Google) and AI-content disclosure/consent items (Apple, per secondary summaries — verify current Guidelines). Common rejections: privacy/data mismatch, missing demo account, broken/placeholder content, repackaged website (4.2), template/spam (4.3), digital goods outside IAP (3.1.1), no in-app account deletion. Release plan needs a rollback you can execute in minutes; monitoring must include AI metrics (latency, tokens, cost, faithfulness sampling, refusal rate); incident plan needs an AI path — bad model output at scale → disable the feature flag."],
+["10 · Post-launch & maintenance — the loop that keeps it alive","Help docs must explain AI limitations plainly (“AI can be wrong — check important outputs”). Changelog must record AI model/prompt changes — these change behaviour even when the UI doesn’t. Support plan needs an AI-output complaint path whose report/flag triage feeds guardrail updates. Scaling plan: re-run the golden set before any model/prompt swap; monitor cost per user; keep a tech-debt register and a sunset/deprecation policy. Retirement plan: user notification, data export, deletion confirmation, store delisting — often forgotten until needed."]
+];
+var MISTAKES=[["Vague prompts, vague product","“Build me a fitness app” lets AI invent features, data models and auth. Without a PRD + acceptance criteria you cannot tell correct output from plausible output."],["No MVP / Won’t list → scope creep on autopilot","AI never says “that’s out of scope.” Freeze Must-haves; route the rest through change control."],["Prompts as folklore, not specs","Prompts pasted in chat and changed by trial and error break silently on a model update. Fix: prompt files in git + golden-set regression in CI."],["No evaluation → hallucinations ship","RAG without citations, thresholds and refusal paths produces confident inventions."],["Security gaps AI creates by default","AI omits auth checks unless prompted and can invent packages. Mitigation: human review + SAST/SCA/secret scanning + least-privilege agents + no prod access. (Vendor-code statistics in the research were not independently verified.)"],["Secrets & personal data in the wrong place","Keys in client code, real customer data in staging, undisclosed prompts sent to a cloud LLM — all preventable, all seen in rejections and breaches."],["Privacy disclosures written last, from memory","Labels / Data Safety must match the app including SDKs — analytics, crash and ad SDKs collect data even if “your” code doesn’t."],["No AI safety / legal ownership","AI must not effectively decide privacy terms, medical/legal/financial disclaimers, moderation policy or EU AI Act classification."],["Testing the demo path only","Empty input, hostile injection, second-role access, offline, payment failure and model timeout fail in production if UAT skips them."],["No runbook, rollback or cost cap","First outage, price change or viral AI feature becomes a crisis. Flags + kill-switches + caps belong in the spec."],["Documentation drift","Three conflicting specs are worse than one current one. One spine document, linked artifacts, docs updated in the same PR as the change."]];
+var team="solo", ti=5;
+function pri(d){return team==="solo"?d[5]:team==="startup"?d[6]:d[7]}
+function render(){
+ var q=document.getElementById("q").value.toLowerCase(), c=document.getElementById("cat").value, p=document.getElementById("pri").value;
+ var rows=DOCS.filter(function(d){var pr=pri(d); return (!q||(d[1]+" "+d[2]).toLowerCase().includes(q))&&(!c||String(d[8])===c)&&(!p||pr.replace("*","")===p)});
+ document.getElementById("tbody").innerHTML=rows.map(function(d){var pr=pri(d),cls=pr.startsWith("E")?"e":pr.startsWith("R")?"r":"o";return "<tr><td><span style='font-family:JetBrains Mono,monospace'>"+d[0]+"</span></td><td><strong>"+d[1]+"</strong><br><span style='color:var(--muted);font-size:12px'>"+CATS[d[8]]+"</span></td><td>"+d[2]+"</td><td>"+d[3]+"</td><td>"+d[4]+"</td><td><span class='badge "+cls+"'>"+(pr==="E"?"Essential":pr==="R"?"Recommended":"Optional")+"</span></td></tr>"}).join("");
+ document.getElementById("count").textContent=rows.length+" of "+DOCS.length+" documents";
+ document.getElementById("empty").style.display=rows.length?"none":"block";
+}
+document.getElementById("cat").innerHTML='<option value="">All 10 stages</option>'+Object.keys(CATS).map(function(k){return '<option value="'+k+'">'+CATS[k]+"</option>"}).join("");
+document.querySelectorAll(".seg button").forEach(function(b){b.onclick=function(){document.querySelectorAll(".seg button").forEach(function(x){x.classList.remove("active")});b.classList.add("active");team=b.dataset.team;render()}});
+["q","cat","pri"].forEach(function(id){document.getElementById(id).addEventListener("input",render);document.getElementById(id).addEventListener("change",render)});
+document.getElementById("timeline").innerHTML=PHASES.map(function(p,i){return "<div class='phase'><div class='num'>"+i+"</div><div><strong>"+p[0]+"</strong> — <span style='color:var(--muted)'>"+p[1]+"</span><ul>"+p[2].map(function(x){return "<li>"+x+"</li>"}).join("")+"</ul></div></div>"}).join("");
+document.getElementById("details").innerHTML=DETAILS.map(function(d,i){return "<details "+(i===0?"open":"")+"><summary>"+d[0]+"</summary><p>"+d[1]+"</p></details>"}).join("");
+document.getElementById("mistakes").innerHTML=MISTAKES.map(function(m,i){return "<div class='card'><span class='badge r'>Mistake "+(i+1)+"</span><h3 style='margin-top:8px'>"+m[0]+"</h3><p>"+m[1]+"</p></div>"}).join("");
+render();
+</script>
+</body></html>
